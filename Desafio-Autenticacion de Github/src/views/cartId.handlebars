@@ -1,0 +1,20 @@
+
+<div>
+  <h1>Cart ID: {{cart._id}}</h1>
+  {{#if cart}}
+    {{#each cart.products}}
+      <ul>
+        <li>Code: {{this.product.code}}</li>
+        <li>Title: {{this.product.title}}</li>
+        <li>Description: {{this.product.description}}</li>
+        <li>Price: {{this.product.price}}</li>
+        <li>Thumbnail: {{this.product.thumbnail}}</li>
+        <li>Stock: {{this.product.stock}}</li>
+        <li>Category: {{this.product.category}}</li>
+        <li>Status: {{this.product.status}}</li>
+      </ul>
+    {{/each}}
+  {{else}}
+    <p>Cart not found.</p>
+  {{/if}}
+</div>
