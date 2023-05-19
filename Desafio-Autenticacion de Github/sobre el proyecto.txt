@@ -1,0 +1,74 @@
+-----------------IMPLEMENTACION DE LOG IN -----------------------------
+
+endpoint para loguearse
+
+http://localhost:9090/users/login
+
+------------------------------------------------------------------------
+endpoint para registrarse
+
+http://localhost:9090/users/register
+
+------------------------------------------------------------------------
+
+endpoint para ruta privada de email:adminCoder@coder.com y pass:adminCod3r123
+
+http://localhost:9090/api/sessions/private
+
+------------------------------------------------------------------------
+endpoint para ver la cantidad de veces que se inicio Sesion
+
+http://localhost:9090/session
+
+
+
+
+------------------------------------------------------------------------
+
+-----------------SEGUNDA PRE ENTREGA DEL PROYECTO FINAL-----------------
+endpoint para ver todos los productos renderizados en una plantilla handlebars por MongoDB
+
+http://localhost:9090/api/products/products
+
+-------------------------------------------------------------------------
+endpoint para ver todos los carritos renderizados en una plantilla handlebars por MongoDB
+
+http://localhost:9090/api/carts/carts
+
+-------------------------------------------------------------------------
+endpoint para ver un carrito por ID renderizado en una plantilla handlebars por ID por MongoDB
+
+http://localhost:9090/api/carts/carts/6445b9f1838a6709d062c055 (ID de ejemplo)
+
+
+
+
+
+
+-----------------PRIMERA PRE ENTREGA DEL PROYECTO FINAL-----------------
+-------------------------------------------------------------------------
+
+ruta para ver el carts.json de los productos
+
+localhost:9090/api/products
+
+-------------------------------------------------------------------------
+ruta para ver el DB.json de los carritos
+
+localhost:9090/api/carts
+
+
+-------------------------------------------------------------------------
+
+ruta para ver los productos en tiempo real por medio de webSockets 
+con plantilla de handlebars
+
+http://localhost:9090/views/realTimeProduct 
+
+
+
+-------------------------------------------------------------------------
+
+ruta para ver los productos por medio de handlebars
+
+http://localhost:9090/views/productList 
