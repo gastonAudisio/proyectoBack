@@ -24,15 +24,16 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import githubLoginViewRouter from './routes/github-login.views.router.js'
-
+import config from './config/config.js';
 //------------------------------------------------------------
 
 const app = express();
 // const userManager = new ProductManager()
 
 
-const SERVER_PORT = 9090;
-
+// const SERVER_PORT = 9090;
+const SERVER_PORT = config.port;
+console.log(config.port);
 //--------------------------------------------------------
 //Preparar la configuracion del servidor para recibir objetos JSON.
 app.use(express.json());
