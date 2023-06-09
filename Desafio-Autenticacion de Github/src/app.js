@@ -25,15 +25,13 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import githubLoginViewRouter from './routes/github-login.views.router.js'
 import config from './config/config.js';
+import dotenv from 'dotenv';
 //------------------------------------------------------------
 
 const app = express();
 // const userManager = new ProductManager()
 
-
-// const SERVER_PORT = 9090;
-const SERVER_PORT = config.port;
-console.log(config.port);
+dotenv.config();
 //--------------------------------------------------------
 //Preparar la configuracion del servidor para recibir objetos JSON.
 app.use(express.json());
@@ -55,6 +53,10 @@ app.set('view engine', 'handlebars');
 //Carpeta public
 app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
+// const SERVER_PORT = 9090;
+const SERVER_PORT = config.port;
+console.log(config.port);
+console.log(config.mongoUrl);
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
@@ -66,11 +68,9 @@ const socketServer = new Server(httpServer);
 // Abrimos el canal de comunicacion
 socketServer.on('connection', socket=>{
     console.log('conectado a socketServer!');
-
     // socket.on("product", product =>{
     // userManager.addProductForm(product)
     // })
-
     // socket.on("id", data => {
     // userManager.deleteProduct(data)
     // })
@@ -78,13 +78,10 @@ socketServer.on('connection', socket=>{
         const newProduct = await productModel.create(product);
         console.log("Producto creado:", newProduct);
     });
-
     socket.on("id", async data => {
         const deletedProduct = await productModel.deleteOne({_id: data});
         console.log("Producto eliminado:", deletedProduct);
     });
-
-
 });
 
 //--------------------------------------------------------
@@ -95,49 +92,6 @@ socketServer.on('connection', socket=>{
         try {
             await mongoose.connect(DB)
             console.log("Conectado con exito a MongoDB usando Mongoose");
-
-    
-//---------------------------------------------------------------------------
-    let idProduct ="6440755ebfadf6a346584b8f" ;
-    let idCart = "644d8a49f9c276242d8bce45";
-//---------------------------------------------------------------------------
-// CREAR UN CART
-    // let newCart = await cartModel.create({})
-    // let cart = await cartModel.findOne({_id: newCart._id }).populate('products')
-    // console.log(cart)
-    
-
-//---------------------------------------------------------------------------
-    // CREAR UN PRODUCT
-    // let newProduct = await productModel.create({
-    //     code: "ff",
-    //     title: "ff",
-    //     description:"ff",
-    //     price: 3444,
-    //     thumbnail:"ff",
-    //     stock: 44,
-    //     category: "ffffffff",
-    //     status: true,
-    // })
-    // let producto = await productModel.findOne({_id: newProduct._id});
-    // console.log(producto);
-//---------------------------------------------------------------------------
-
-// Creamos la conxion/referencia PARA AGREGAR UN idProduct A UN idCart
-
-    // let cart = await cartModel.findOne({_id:idCart})
-    // // console.log(JSON.stringify(cart, null, '\t'))
-
-    // const productIndex = cart.products.findIndex(p => p.product == idProduct);
-    // if (productIndex >= 0) {
-    //   cart.products[productIndex].quantity++;
-    // } else {
-    //   cart.products.push({ product: idProduct, quantity: 1 });
-    // }
-    
-    // let result = await cartModel.updateOne({_id:idCart}, cart )
-    // // console.log(result);
-
         } catch (error) {
             console.error("No se pudo conectar a la BD usando Moongose: " + error);
             process.exit();
