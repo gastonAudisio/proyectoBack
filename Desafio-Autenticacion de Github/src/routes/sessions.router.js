@@ -35,7 +35,7 @@ router.get('/logout', (req, res) => {
   });
 });
 
-function auth(req, res, next) {
+export function auth(req, res, next) {
   if (req.session.user.email === 'adminCoder@coder.com' && req.session.admin) {
     return next();
   } else {

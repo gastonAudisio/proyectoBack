@@ -1,5 +1,5 @@
 import { productModel } from "../models/product.model.js";
-// import { checkUser } from '../routes/sessions.router.js';
+import { login } from "./sessions.controller.js";
 
 export const getPaginatedProducts = async (req, res) => {
     try {
@@ -47,5 +47,22 @@ export const getPaginatedProducts = async (req, res) => {
     } catch (error) {
       console.error("No se pudo crear el producto con mongoose: " + error);
       res.status(500).send({ error: "No se pudo crear el producto con mongoose", message: error });
+    }
+  };
+
+  export const deleteProduct = async (req, res) => {
+    try {
+      const productId = req.params.pid;
+      // Buscar y eliminar el producto por su ID
+      const deletedProduct = await productModel.findByIdAndDelete(productId);
+  
+      if (!deletedProduct) {
+        return res.status(404).json({ message: 'Producto no encontrado' });
+      }
+  
+      res.status(200).json({ message: 'Producto eliminado correctamente' });
+    } catch (error) {
+      console.error("No se pudo eliminar el producto con mongoose: " + error);
+      res.status(500).send({ error: "No se pudo eliminar el producto con mongoose", message: error });
     }
   };

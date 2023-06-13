@@ -67,7 +67,7 @@ export async function githubCallback(req, res) {
       },
     };
 
-    const uuser = req.session.user;
+    
     const access_token = generateJWToken(user);
 
     res.send({
@@ -150,7 +150,7 @@ export async function login(req, res) {
         },
       };
   
-      const uuser = req.session.user;
+      
       const access_token = generateJWToken(user);
   
       res.send({
