@@ -9,29 +9,27 @@ import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import {Server} from 'socket.io'
 // import ProductManager from './service/ProductManager.js';
-
 import mongoose from 'mongoose';
-
 import { productModel } from "./models/product.model.js";
 // import { cartModel } from "./models/cart.model.js";
-
-
 import usersViewRouter from './routes/users.views.router.js';
 import sessionsRouter from './routes/sessions.router.js'
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import githubLoginViewRouter from './routes/github-login.views.router.js'
-import config from './config/config.js';
-import dotenv from 'dotenv';
+import MongoSingleton from './config/mongodb-singleton.js';
+import config from './config/config.js'
+import cors from 'cors';
+
 //------------------------------------------------------------
 
 const app = express();
 // const userManager = new ProductManager()
 
-dotenv.config();
+
+app.use(cors());
 //--------------------------------------------------------
 //Preparar la configuracion del servidor para recibir objetos JSON.
 app.use(express.json());
@@ -55,11 +53,10 @@ app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
 const SERVER_PORT = 9090;
 // const SERVER_PORT = config.port;
-// console.log(config.port);
-// console.log(config.mongoUrl);
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
+
 
 //--------------------------------------------------------
 // const socketServer = new Server
@@ -88,16 +85,23 @@ socketServer.on('connection', socket=>{
 
     // Conectamos la base de datos
     const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
-    const connectMongoDB = async()=>{
-        try {
-            await mongoose.connect(DB)
-            console.log("Conectado con exito a MongoDB usando Mongoose");
-        } catch (error) {
-            console.error("No se pudo conectar a la BD usando Moongose: " + error);
-            process.exit();
-        }
-}
-
+//     const connectMongoDB = async()=>{
+//         try {
+//             await mongoose.connect(DB)
+//             console.log("Conectado con exito a MongoDB usando Mongoose");
+//         } catch (error) {
+//             console.error("No se pudo conectar a la BD usando Moongose: " + error);
+//             process.exit();
+//         }
+// }
+const mongoInstance = async () => {
+    try {
+        await MongoSingleton.getInstance();
+    } catch (error) {
+        console.error(error);
+    }
+};
+mongoInstance();
 //--------------------------------------------------------
 app.use(session({
 
@@ -123,7 +127,7 @@ app.use('/api/sessions',sessionsRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/github", githubLoginViewRouter);
-connectMongoDB()
+// connectMongoDB()
 
 
 

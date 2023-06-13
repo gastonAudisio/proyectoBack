@@ -1,16 +1,29 @@
+
+
 import dotenv from 'dotenv';
-import program from '../process.js'
+import { Command } from 'commander';
 
+const program = new Command(); //Crea la instancia de comandos de commander.
 
+program
+    .option('-d, --debug', 'Variable para debug', false)
+    .option('-p, --port <port>', 'Puerto del servidor','3000')
+    .option('--mode <mode>', 'Modo de trabajo', 'develop')
+program.parse();
 
+console.log("Options: ", program.opts());
+console.log("Mode: ", program.opts().mode);
+console.log("port: ", program.opts().port);
+
+// const environment = program.mode;
+// const environment = program.opts().mode;
 const environment = program.opts().mode;
-dotenv.config(
-    {
-        path: environment === "production" ? "./src/config/.env.production" : "./src/config/.env.development"
-    }
-)
 
+dotenv.config({
+    path: environment === "production" ? "./src/config/.env.production" : "./src/config/.env.development"
+});
 
+// console.log(process.env.ADMIN_NAME);
 
 export default {
     port: process.env.PORT,

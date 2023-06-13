@@ -27,5 +27,10 @@ router.get("/error", (req, res)=>{
     res.render("error");
 });
 
+router.get("/current", (req, res)=>{
+    res.render("profile", {
+        user: req.session.user
+    });
+});
 
 export default router;
