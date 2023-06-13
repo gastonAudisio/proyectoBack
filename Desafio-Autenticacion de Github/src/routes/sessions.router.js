@@ -42,6 +42,13 @@ export function auth(req, res, next) {
     return res.status(403).send('Usuario no autorizado para ingresar al recurso');
   }
 }
+export function authUser(req, res, next) {
+  if (!req.session.user.email === 'adminCoder@coder.com' && !req.session.admin) {
+    return next();
+  } else {
+    return res.status(403).send('Usuario no autorizado para ingresar al recurso');
+  }
+}
 
 router.get('/private', auth, (req, res) => {
   console.log('usuario autorizado');

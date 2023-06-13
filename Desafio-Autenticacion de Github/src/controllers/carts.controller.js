@@ -117,3 +117,19 @@ export const deleteAllProductsFromCart = async (req, res) => {
       });
     }
   };
+
+  export const deleteCartById = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      await cartModel.findByIdAndRemove(id);
+  
+      res.status(200).send({ message: "Carrito eliminado correctamente" });
+    } catch (error) {
+      console.error("No se pudo eliminar el carrito con Mongoose: " + error);
+      res.status(500).send({
+        error: "No se pudo eliminar el carrito con Mongoose",
+        message: error,
+      });
+    }
+  };

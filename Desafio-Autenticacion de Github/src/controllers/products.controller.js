@@ -1,5 +1,4 @@
 import { productModel } from "../models/product.model.js";
-import { login } from "./sessions.controller.js";
 
 export const getPaginatedProducts = async (req, res) => {
     try {
