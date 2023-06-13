@@ -22,7 +22,7 @@ import githubLoginViewRouter from './routes/github-login.views.router.js'
 import MongoSingleton from './config/mongodb-singleton.js';
 import config from './config/config.js'
 import cors from 'cors';
-
+import chatRouter from "./routes/chat.router.js"
 //------------------------------------------------------------
 
 const app = express();
@@ -79,6 +79,15 @@ socketServer.on('connection', socket=>{
         const deletedProduct = await productModel.deleteOne({_id: data});
         console.log("Producto eliminado:", deletedProduct);
     });
+
+    socket.on('chatMessage', message => {
+        console.log('Mensaje del servidor recibido: ' + message);
+        // Aquí puedes agregar lógica adicional para manejar el mensaje recibido, como mostrarlo en la interfaz de usuario
+      });
+    
+
+    
+
 });
 
 //--------------------------------------------------------
@@ -127,6 +136,7 @@ app.use('/api/sessions',sessionsRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/github", githubLoginViewRouter);
+app.use("/chat", chatRouter);
 // connectMongoDB()
 
 
