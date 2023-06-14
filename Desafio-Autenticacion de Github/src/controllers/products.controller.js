@@ -65,3 +65,25 @@ export const getPaginatedProducts = async (req, res) => {
       res.status(500).send({ error: "No se pudo eliminar el producto con mongoose", message: error });
     }
   };
+
+  export const updateProductStock = async (req, res) => {
+    try {
+      const productId = req.params.pid;
+      const { stock } = req.body;
+  
+      // Verificar si el producto existe
+      const product = await productModel.findById(productId);
+      if (!product) {
+        return res.status(404).json({ message: 'Producto no encontrado' });
+      }
+  
+      // Actualizar el stock del producto
+      product.stock = stock;
+      await product.save();
+  
+      res.status(200).json({ message: 'Stock del producto actualizado correctamente' });
+    } catch (error) {
+      console.error("No se pudo actualizar el stock del producto con mongoose: " + error);
+      res.status(500).send({ error: "No se pudo actualizar el stock del producto con mongoose", message: error });
+    }
+  };

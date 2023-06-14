@@ -13,7 +13,7 @@ const schema = mongoose.Schema({
     amount: Number,
     purchaser:{
         type:String,
-        unique:true
+        unique: true
     },
 
 })

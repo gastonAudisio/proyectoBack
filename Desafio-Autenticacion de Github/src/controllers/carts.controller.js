@@ -1,6 +1,8 @@
 import { cartModel } from "../models/cart.model.js";
 import { productModel } from "../models/product.model.js";
 import { ticketService } from "../service/ticketService.js";
+import { userModel } from '../models/user.model.js';
+
 export const renderCarts = async (req, res) => {
   try {
     const carts = await cartModel.find().populate("products.product").lean();
@@ -139,51 +141,59 @@ export const deleteAllProductsFromCart = async (req, res) => {
   };
 
   export const purchaseTicket = async (req, res) => {
-  const cartId = req.params.cid;
-
-  try {
-    // Obtener el carrito de la base de datos
-    const cart = await cartModel.findById(cartId).populate('products.product');
-
-    // Verificar si el carrito existe
-    if (!cart) {
-      return res.status(404).json({ error: 'Carrito no encontrado' });
-    }
-
-    // Verificar el stock de cada producto en el carrito
-    const failedProducts = [];
-
-    for (const item of cart.products) {
-      const productId = item.product._id;
-      const quantity = item.quantity;
-
-      // Obtener el producto de la base de datos
-      const product = await productModel.findById(productId);
-
-      // Verificar el stock del producto
-      if (product.stock >= quantity) {
-        // Restar la cantidad del stock del producto
-        product.stock -= quantity;
-        await product.save();
-      } else {
-        // No hay suficiente stock, agregar el producto a la lista de productos no procesados
-        failedProducts.push(productId);
-        console.log(`Stock insuficiente para el producto: ${product.title}`);
+    const cartId = req.params.cid;
+  
+    try {
+      // Obtener el carrito de la base de datos
+      const cart = await cartModel.findById(cartId).populate('products.product');
+  
+      // Verificar si el carrito existe
+      if (!cart) {
+        return res.status(404).json({ error: 'Carrito no encontrado' });
       }
+  
+      // Verificar el stock de cada producto en el carrito
+      const failedProducts = [];
+  
+      for (const item of cart.products) {
+        const productId = item.product._id;
+        const quantity = item.quantity;
+  
+        // Obtener el producto de la base de datos
+        const product = await productModel.findById(productId);
+  
+        // Verificar el stock del producto
+        if (product.stock >= quantity) {
+          // Restar la cantidad del stock del producto
+          product.stock -= quantity;
+          await product.save();
+        } else {
+          // No hay suficiente stock, agregar el producto a la lista de productos no procesados
+          failedProducts.push(productId);
+          console.log(`Stock insuficiente para el producto: ${product.title}`);
+        }
+      }
+  
+      // Eliminar los productos no procesados del carrito
+      cart.products = cart.products.filter((p) => !failedProducts.includes(p.product));
+  
+      // Guardar los cambios en el carrito
+      await cart.save();
+  
+      // Obtener el correo electrónico del usuario
+      const user = await userModel.findById(cart.user);
+      console.log(user);
+      if (!user) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+      const userEmail = user.email;
+  
+      // Crear un ticket con los datos de la compra y los productos no procesados
+      await ticketService.createTicket(cart, failedProducts, userEmail);
+  
+      res.json({ message: 'Compra realizada con éxito' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error en el servidor' });
     }
-
-    // Eliminar los productos no procesados del carrito
-    cart.products = cart.products.filter((p) => !failedProducts.includes(p.product));
-
-    // Guardar los cambios en el carrito
-    await cart.save();
-
-    // Crear un ticket con los datos de la compra y los productos no procesados
-    await ticketService.createTicket(cart, failedProducts);
-
-    res.json({ message: 'Compra realizada con éxito' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error en el servidor' });
-  }
-};
+  };
