@@ -43,7 +43,7 @@ export function auth(req, res, next) {
   }
 }
 export function authUser(req, res, next) {
-  if (!req.session.user.email === 'adminCoder@coder.com' && !req.session.admin) {
+  if (!req.session.admin) {
     return next();
   } else {
     return res.status(403).send('Usuario no autorizado para ingresar al recurso');
