@@ -1,36 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Chat</title>
-  <!-- Agrega aquí tus estilos CSS -->
-</head>
-<body>
-  <h1>Chat</h1>
+<div>
+    <h1>Bienvenido al chat de camada-51135</h1>
+    
+    <div>
+        <p> Escribe un mensaje en nuestro ChatBox: <input id="chatBox" type="text"></p>
+    </div>
 
-  <div id="chatMessages">
-    <!-- Aquí se mostrarán los mensajes del chat -->
-  </div>
 
-  <input type="text" id="messageInput" placeholder="Escribe un mensaje">
-  <button id="sendButton">Enviar</button>
+    {{!-- renderizado de los mensajes --}}
+    <div>
+        <p id="messageLogs"></p>
+    </div>
+</div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    // Escuchar eventos de la interfaz de usuario para enviar mensajes
-    document.getElementById('sendButton').addEventListener('click', () => {
-      const message = document.getElementById('messageInput').value;
-      sendMessage(message);
-      document.getElementById('messageInput').value = ''; // Limpiar el campo de entrada después de enviar el mensaje
-    });
-
-    // Escuchar mensajes del servidor de socket y actualizar la interfaz de usuario
-    const socket = io();
-    socket.on('chatMessage', message => {
-      const chatMessages = document.getElementById('chatMessages');
-      const newMessage = document.createElement('p');
-      newMessage.textContent = message;
-      chatMessages.appendChild(newMessage);
-    });
-  </script>
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>

@@ -61,7 +61,7 @@ const httpServer = app.listen(SERVER_PORT, () => {
 //--------------------------------------------------------
 // const socketServer = new Server
 const socketServer = new Server(httpServer);
-
+let messages = []
 // Abrimos el canal de comunicacion
 socketServer.on('connection', socket=>{
     console.log('conectado a socketServer!');
@@ -80,14 +80,17 @@ socketServer.on('connection', socket=>{
         console.log("Producto eliminado:", deletedProduct);
     });
 
-    socket.on('chatMessage', message => {
-        console.log('Mensaje del servidor recibido: ' + message);
-        // Aquí puedes agregar lógica adicional para manejar el mensaje recibido, como mostrarlo en la interfaz de usuario
-      });
-    
+//---------------chat----------------//
 
-    
+socket.on('message', data =>{
+    messages.push(data);
+    socketServer.emit('messageLogs', messages )
+})
 
+// hacemos un broadcast del nuevo usuario que se conecta al chat
+socket.on('userConnected', data =>{
+    socket.broadcast.emit('userConnected', data.user)
+})
 });
 
 //--------------------------------------------------------
