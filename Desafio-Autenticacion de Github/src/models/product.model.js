@@ -22,7 +22,7 @@ const stringTypeSchemaNonUniqueRequired = {
 const booleanTypeSchemaNonUniqueRequired = {
     type: Boolean,
     required: true,
-    default: 'active'
+    default: true
 };
 
 
