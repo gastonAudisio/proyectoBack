@@ -81,13 +81,17 @@
         <li>Stock: {{this.stock}}</li>
         <li>Categoria: {{this.category}}</li>
         <li>Status: {{this.status}}</li>
-        <form>
-            <button type="submit"    class="cartButton" data-product-id="{{this._id}}"  >Agregar al carrito</button>
-        </form>
-        <button class="removeProductButton" data-product-id="{{this._id}}" >Eliminar</button>
 
-        <br>
-        <br>
+<div class="quantity-input">
+    <button class="quantity-btn minus">-</button>
+        <input type="number" class="quantity" value="1" min="1">
+    <button class="quantity-btn plus">+</button>
+    <br>
+    <button type="submit" class="cartButton" data-product-id="{{this._id}}">Agregar al carrito</button>
+    <button class="removeProductButton" data-product-id="{{this._id}}">Eliminar</button>
+</div>
+<br>
+<br>
     {{/each}}
 </div>
 <button id="removeAllProducts" >Eliminar todos los productos del Carrito</button>
@@ -114,3 +118,4 @@
 <script src="/js/logout.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/products.js"></script>
+

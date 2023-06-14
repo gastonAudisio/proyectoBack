@@ -10,6 +10,7 @@ import {
   addProductIdToCartId,
   deleteCartById,
   deleteAllProductsFromCart,
+  purchaseTicket,
 } from "../controllers/carts.controller.js";
 import {authUser} from '../routes/sessions.router.js'
 
@@ -39,8 +40,11 @@ router.put("/:id/products/:pid",authUser, addProductIdToCartId);
 // PUT - DELETE cartId
 router.delete("/:id",authUser, deleteCartById);
 
-
 // DELETE ALL PRODUCTS
 router.delete("/:id/products", deleteAllProductsFromCart);
+
+// PROCESO DE COMPRA
+router.post("/:cid/purchase", purchaseTicket);
+
 
 export default router;

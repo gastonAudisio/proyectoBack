@@ -1,5 +1,5 @@
 import { cartModel } from "../models/cart.model.js";
-
+import { productModel } from "../models/product.model.js";
 export const renderCarts = async (req, res) => {
   try {
     const carts = await cartModel.find().populate("products.product").lean();
@@ -41,14 +41,31 @@ export const createCart = async (req, res) => {
   }
 };
 
+// export const addProductToCart = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { productId } = req.body;
+
+//     const updatedCart = await cartModel.findByIdAndUpdate(
+//       id,
+//       { $addToSet: { products: { product: productId } } },
+//       { new: true }
+//     );
+
+//     res.status(200).json(updatedCart);
+//   } catch (error) {
+//     console.error("No se pudo agregar el producto al carrito con mongoose: " + error);
+//     res.status(500).send({ error: "No se pudo agregar el producto al carrito con mongoose", message: error });
+//   }
+// };
 export const addProductToCart = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productId } = req.body;
+    const { productId, quantity } = req.body;
 
     const updatedCart = await cartModel.findByIdAndUpdate(
       id,
-      { $addToSet: { products: { product: productId } } },
+      { $addToSet: { products: { product: productId, quantity } } },
       { new: true }
     );
 
@@ -58,6 +75,8 @@ export const addProductToCart = async (req, res) => {
     res.status(500).send({ error: "No se pudo agregar el producto al carrito con mongoose", message: error });
   }
 };
+
+
 
 export const deleteProductFromCart = async (req, res) => {
   try {
@@ -131,5 +150,46 @@ export const deleteAllProductsFromCart = async (req, res) => {
         error: "No se pudo eliminar el carrito con Mongoose",
         message: error,
       });
+    }
+  };
+
+  export const purchaseTicket = async (req, res) => {
+    const cartId = req.params.cid;
+  
+    try {
+      // Obtener el carrito de la base de datos
+      const cart = await cartModel.findById(cartId).populate('products.product');
+  
+      // Verificar si el carrito existe
+      if (!cart) {
+        return res.status(404).json({ error: 'Carrito no encontrado' });
+      }
+  
+      // Verificar el stock de cada producto en el carrito
+      for (const item of cart.products) {
+        const productId = item.product._id;
+        const quantity = item.quantity;
+  
+        // Obtener el producto de la base de datos
+        const product = await productModel.findById(productId);
+  
+        // Verificar el stock del producto
+        if (product.stock >= quantity) {
+          // Restar la cantidad del stock del producto
+          product.stock -= quantity;
+          await product.save();
+        } else {
+          // No hay suficiente stock, eliminar el producto del carrito
+          cart.products = cart.products.filter((p) => p.product != productId);
+        }
+      }
+  
+      // Guardar los cambios en el carrito
+      await cart.save();
+  
+      res.json({ message: 'Compra realizada con éxito' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error en el servidor' });
     }
   };

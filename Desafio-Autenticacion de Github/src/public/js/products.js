@@ -7,36 +7,53 @@ const delAll = document.getElementById("removeAllProducts")
 
 //----------------------------------------------------------------------
 
+document.querySelectorAll('.quantity-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const quantityInput = this.parentNode.querySelector('.quantity');
+    let quantity = parseInt(quantityInput.value);
+
+    if (this.classList.contains('plus')) {
+      quantity++;
+    } else if (this.classList.contains('minus')) {
+      quantity = Math.max(1, quantity - 1);
+    }
+    quantityInput.value = quantity;
+    console.log(quantity);
+  });
+});
 
 document.querySelectorAll('.cartButton').forEach(btn => {
   btn.addEventListener('click', function(event) {
-      event.preventDefault();
-      const productId = this.dataset.productId;
-      console.log(productId);
-      console.log(cartId);
-      fetch(`/api/carts/${cartId}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({productId})
-              })
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(data => {
-                console.log('Success:', data);
-                alert('Producto agregado al carrito');
-              })
-              .catch(error => {
-                console.error('Error:', error);
-              });
-      
+    event.preventDefault();
+    const productId = this.dataset.productId;
+    const quantityInput = this.parentNode.querySelector('.quantity');
+    const quantity = quantityInput.value;
+    console.log(productId);
+    console.log(cartId);
+    fetch(`/api/carts/${cartId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ productId, quantity })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      alert('Producto agregado al carrito');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   });
 });
+//----------------------------------------------------------------
+
 //----------------------------------------------------------------------
 document.querySelectorAll('.removeProductButton').forEach(btn => {
   btn.addEventListener('click', function(event) {
