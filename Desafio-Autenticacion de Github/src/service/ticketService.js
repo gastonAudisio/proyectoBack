@@ -7,7 +7,7 @@ export const ticketService = {
           code: Math.floor(Math.random() * 100000), // Generar un código de ticket aleatorio
           purchase_datetime: new Date(),
           amount: cart.products.reduce((total, item) => total + item.quantity * item.product.price, 0),
-          purchaser: userEmail,
+          purchaser: "",
         });
   
         // Guardar el ticket en la base de datos
