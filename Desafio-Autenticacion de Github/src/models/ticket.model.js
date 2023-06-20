@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import { userModel } from './user.model.js';
 
 const collection = "tickets";
 const schema = mongoose.Schema({
@@ -11,10 +11,6 @@ const schema = mongoose.Schema({
         type: Date, default: Date.now 
     },
     amount: Number,
-    purchaser:{
-        type:String,
-        unique: true
-    },
-
+    purchaser: String,
 })
 export const ticketModel = mongoose.model(collection,schema);

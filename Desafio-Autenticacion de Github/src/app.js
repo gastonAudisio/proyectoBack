@@ -23,6 +23,7 @@ import MongoSingleton from './config/mongodb-singleton.js';
 import config from './config/config.js'
 import cors from 'cors';
 import chatRouter from "./routes/chat.router.js"
+import emailRouter from "./routes/email.router.js"
 //------------------------------------------------------------
 
 const app = express();
@@ -140,6 +141,7 @@ app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/github", githubLoginViewRouter);
 app.use("/chat", chatRouter);
+app.use("/email", emailRouter);
 // connectMongoDB()
 
 

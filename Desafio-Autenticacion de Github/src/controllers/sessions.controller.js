@@ -1,3 +1,4 @@
+
 import { cartModel } from '../models/cart.model.js';
 import { generateJWToken } from '../utils.js';
 
@@ -161,3 +162,4 @@ export async function login(req, res) {
       });
     }
   }
+
