@@ -6,8 +6,10 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
     auth: {
-        user: config.gmailAccount,
-        pass: config.gmailAppPassword
+        // user: config.gmailAccount,
+        // pass: config.gmailAppPassword
+        user :'audisiogaston@gmail.com',
+        pass : 'lrcbfuniybwpppvn',
     }
 });
 
@@ -21,8 +23,11 @@ transporter.verify(function (error, success) {
 
 const mailOptions = {
     // Cuerpo del mensaje
-    from: "Coder Test " + config.gmailAccount,
-    to: config.gmailAccount,
+    // from: "Coder Test " + config.gmailAccount,
+    // to: config.gmailAccount,
+    to : 'audisiogaston@gmail.com',
+    from: "Coder Test ",
+
     subject: "Correo de prueba Coderhouse Programacion Backend clase 30.",
     html: `<div><h1>Esto es un Test de envio de correos con Nodemailer!</h1></div>`,
     attachments: []
@@ -30,8 +35,10 @@ const mailOptions = {
 
 const mailOptionsWithAttachments = {
     // Cuerpo del mensaje
-    from: "Coder Test " + config.gmailAccount,
-    to: config.gmailAccount,
+    // from: "Coder Test " + config.gmailAccount,
+    // to: config.gmailAccount,
+    from: "Coder Test ",
+    to : 'audisiogaston@gmail.com',
     subject: "Correo de prueba Coderhouse Programacion Backend clase 30.",
     html: `<div>
                 <h1>Esto es un Test de envio de correos con Nodemailer!</h1>
@@ -60,7 +67,8 @@ export const sendEmail = (req, res) => {
         })
     } catch (error) {
         console.error(error);
-        res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+        // res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+            res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" });
     }
 
 };
@@ -78,6 +86,7 @@ export const sendEmailWithAttachments = (req, res) => {
         })
     } catch (error) {
         console.error(error);
-        res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+        // res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
+        res.status(500).send({ error: error, message: "No se pudo enviar el email desde:"  });
     }
 }

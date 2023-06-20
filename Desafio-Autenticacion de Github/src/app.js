@@ -141,7 +141,7 @@ app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/github", githubLoginViewRouter);
 app.use("/chat", chatRouter);
-app.use("/email", emailRouter);
+app.use("/api/email", emailRouter);
 // connectMongoDB()
 
 
