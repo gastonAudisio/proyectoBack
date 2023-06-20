@@ -1,3 +1,23 @@
+
+
+------------------ TERCERA PRE ENTREGA ---------------------------------
+
+------------------------------------------------------------------------
+endpoint para envio de email
+
+http://localhost:9090/api/email
+http://localhost:9090/api/email/attachments
+
+------------------------------------------------------------------------
+
+ruta del chat por medio de handlebars con webSockets
+
+------------------------------------------------------------------------
+endpoint para purchaseTicket
+
+localhost:9090/api/carts/:cid/purchase
+
+
 -----------------IMPLEMENTACION DE LOG IN -----------------------------
 
 endpoint para loguearse
@@ -72,3 +92,5 @@ http://localhost:9090/views/realTimeProduct
 ruta para ver los productos por medio de handlebars
 
 http://localhost:9090/views/productList 
+
+-------------------------------------------------------------------------
