@@ -24,6 +24,7 @@ import config from './config/config.js'
 import cors from 'cors';
 import chatRouter from "./routes/chat.router.js"
 import emailRouter from "./routes/email.router.js"
+import mockingProductsRouter from './routes/mockingProducts.router.js';
 //------------------------------------------------------------
 
 const app = express();
@@ -142,7 +143,7 @@ app.use("/api/carts", cartsRouter);
 app.use("/github", githubLoginViewRouter);
 app.use("/chat", chatRouter);
 app.use("/api/email", emailRouter);
-
+app.use("/mockingproducts", mockingProductsRouter);
 // connectMongoDB()
 
 
