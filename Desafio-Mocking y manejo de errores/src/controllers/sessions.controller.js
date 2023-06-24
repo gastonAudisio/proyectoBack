@@ -11,7 +11,7 @@ export async function githubCallback(req, res) {
     req.session.admin = true;
     console.log('es admin');
 
-    if (!user) return res.status(401).send({ status: 'error', error: 'Incorrect credentials' });
+    if (!user) return  res.status(401).send(getErrorMessage('INVALID_CREDENTIALS'));
 
     const cart = {
       cart_id: user._id,
@@ -47,8 +47,7 @@ export async function githubCallback(req, res) {
     req.session.admin = false;
     console.log('no es admin');
 
-    if (!user) return res.status(401).send({ status: 'error', error: 'Incorrect credentials' });
-
+    if (!user) return  res.status(401).send(getErrorMessage('INVALID_CREDENTIALS'));
     const cart = {
       cart_id: user._id,
       products: [],
@@ -94,7 +93,7 @@ export async function login(req, res) {
       req.session.admin = true;
       console.log('es admin');
   
-      if (!user) return res.status(401).send({ status: 'error', error: 'Incorrect credentials' });
+      if (!user) return  res.status(401).send(getErrorMessage('INVALID_CREDENTIALS'));
   
       const cart = {
         cart_id: user._id,
@@ -130,7 +129,7 @@ export async function login(req, res) {
       req.session.admin = false;
       console.log('no es admin');
   
-      if (!user) return res.status(401).send({ status: 'error', error: 'Incorrect credentials' });
+      if (!user) return  res.status(401).send(getErrorMessage('INVALID_CREDENTIALS'));
   
       const cart = {
         cart_id: user._id,

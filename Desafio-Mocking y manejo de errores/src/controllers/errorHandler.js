@@ -17,6 +17,9 @@ export const getErrorMessage = (errorCode) => {
       'ERROR_PURCHASER': 'No se pudo realizar la compra',
       'ERROR_PURCHASER': 'No se pudo realizar la compra',
       'INSUFFICIENT_STOCK': 'stock insuficiente',
+      'INVALID_CREDENTIALS': 'Credenciales Invalidas',
+      'ERROR_USER': 'No se pudieron obtener los datos del usuario',
+
     };
   
     return errorDictionary[errorCode] || 'Error desconocido.';

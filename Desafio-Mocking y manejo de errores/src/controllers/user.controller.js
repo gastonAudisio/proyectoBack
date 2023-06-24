@@ -9,6 +9,6 @@ export const getUsers = async (req, res) => {
         res.send({ status: "success", payload: users });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ error: error, message: "No se pudo obtener los usuarios:" });
+        res.status(500).send(getErrorMessage('ERROR_USER'));
     }
 };
