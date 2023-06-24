@@ -1,13 +1,14 @@
 import { cartModel } from "../models/cart.model.js";
 import { productModel } from "../models/product.model.js";
 import { ticketService } from "../service/ticketService.js";
+import { getErrorMessage } from './errorHandler.js';
 export const renderCarts = async (req, res) => {
   try {
     const carts = await cartModel.find().populate("products.product").lean();
     res.render('carts', { carts });
   } catch (error) {
-    console.error(`Error al obtener los carritos: ${error}`);
-    res.status(500).send('Error interno del servidor');
+    console.error(`Error al obtener los carritos: ${getErrorMessage('CARTS_NOT_FOUND')}`);
+    res.status(500).send(getErrorMessage('CARTS_NOT_FOUND'));
   }
 };
 
@@ -16,8 +17,8 @@ export const renderCartById = async (req, res) => {
     const cart = await cartModel.findById(req.params.id).populate("products.product").lean();
     res.render('cartId', { cart });
   } catch (error) {
-    console.error(`Error al obtener el carrito: ${error}`);
-    res.status(500).send('Error interno del servidor');
+    console.error(`Error al obtener los carritos: ${getErrorMessage('CART_NOT_FOUND')}`);
+    res.status(500).send(getErrorMessage('CART_NOT_FOUND'));
   }
 };
 
@@ -26,8 +27,8 @@ export const getAllCarts = async (req, res) => {
     const carts = await cartModel.find();
     res.send(carts);
   } catch (error) {
-    console.error("No se pudo obtener los carritos con mongoose: " + error);
-    res.status(500).send({ error: "No se pudo obtener los carritos con mongoose", message: error });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('CARTS_NOT_FOUND')}`);
+    res.status(500).send(getErrorMessage('CARTS_NOT_FOUND'));
   }
 };
 
@@ -37,8 +38,8 @@ export const createCart = async (req, res) => {
     const cart = await cartModel.create({ products });
     res.status(201).send(cart);
   } catch (error) {
-    console.error("No se pudo crear el carrito con mongoose: " + error);
-    res.status(500).send({ error: "No se pudo crear el carrito con mongoose", message: error });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_CREATE_CART')}`);
+    res.status(500).send(getErrorMessage('ERROR_CREATE_CART'));
   }
 };
 
@@ -56,8 +57,8 @@ export const addProductToCart = async (req, res) => {
 
     res.status(200).json(updatedCart);
   } catch (error) {
-    console.error("No se pudo agregar el producto al carrito con mongoose: " + error);
-    res.status(500).send({ error: "No se pudo agregar el producto al carrito con mongoose", message: error });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_ADD_TO_CART')}`);
+    res.status(500).send(getErrorMessage('ERROR_ADD_TO_CART'));
   }
 };
 
@@ -75,8 +76,8 @@ export const deleteProductFromCart = async (req, res) => {
 
     res.status(200).json(updatedCart);
   } catch (error) {
-    console.error("No se pudo eliminar el producto del carrito con mongoose: " + error);
-    res.status(500).send({ error: "No se pudo eliminar el producto del carrito con mongoose", message: error });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_DELETE_TO_CART')}`);
+    res.status(500).send(getErrorMessage('ERROR_DELETE_TO_CART'));
   }
 };
 
@@ -98,8 +99,8 @@ export const addProductIdToCartId = async (req, res) => {
 
     res.status(200).json(updatedCart);
   } catch (error) {
-    console.error("No se pudo agregar el producto al carrito con mongoose: " + error);
-    res.status(500).send({ error: "No se pudo agregar el producto al carrito con mongoose", message: error });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_ADD_TO_CART')}`);
+    res.status(500).send(getErrorMessage('ERROR_ADD_TO_CART'));
   }
 };
 export const deleteAllProductsFromCart = async (req, res) => {
@@ -114,11 +115,8 @@ export const deleteAllProductsFromCart = async (req, res) => {
   
       res.status(200).json(updatedCart);
     } catch (error) {
-      console.error("No se pudo actualizar el carrito con Mongoose: " + error);
-      res.status(500).send({
-        error: "No se pudo actualizar el carrito con Mongoose",
-        message: error,
-      });
+      console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_DELETE_ALL_TO_CART')}`);
+    res.status(500).send(getErrorMessage('ERROR_DELETE_ALL_TO_CART'));
     }
   };
 
@@ -130,11 +128,9 @@ export const deleteAllProductsFromCart = async (req, res) => {
   
       res.status(200).send({ message: "Carrito eliminado correctamente" });
     } catch (error) {
-      console.error("No se pudo eliminar el carrito con Mongoose: " + error);
-      res.status(500).send({
-        error: "No se pudo eliminar el carrito con Mongoose",
-        message: error,
-      });
+
+      console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_DELETE_CART')}`);
+      res.status(500).send(getErrorMessage('ERROR_DELETE_CART'));
     }
   };
 
@@ -148,7 +144,9 @@ export const purchaseTicket = async (req, res) => {
     console.log('productos en el carrito ' + cart);
     // Verificar si el carrito existe
     if (!cart) {
-      return res.status(404).json({ error: 'Carrito no encontrado' });
+      
+      console.error(`Error al obtener los carritos: ${getErrorMessage('CARTS_NOT_FOUND')}`);
+      res.status(500).send(getErrorMessage('CARTS_NOT_FOUND'));
     }
 
     // Verificar el stock de cada producto en el carrito
@@ -170,6 +168,8 @@ export const purchaseTicket = async (req, res) => {
         // No hay suficiente stock, agregar el producto a la lista de productos no procesados
         failedProducts.push(productId);
         console.log(`Stock insuficiente para el producto: ${product.title}`);
+        console.error(`Error al obtener los carritos: ${getErrorMessage('INSUFFICIENT_STOCK')}`);
+        res.status(500).send(getErrorMessage('INSUFFICIENT_STOCK'));
       }
     }
 
@@ -187,7 +187,7 @@ export const purchaseTicket = async (req, res) => {
 
     res.json({ message: 'Compra realizada con éxito' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error en el servidor' });
+    console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_PURCHASER')}`);
+    res.status(500).send(getErrorMessage('ERROR_PURCHASER'));
   }
 };

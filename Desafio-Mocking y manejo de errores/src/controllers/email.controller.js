@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import config from '../config/config.js';
 import __dirname from '../utils.js'
+import { getErrorMessage } from './errorHandler.js';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -68,7 +69,8 @@ export const sendEmail = (req, res) => {
     } catch (error) {
         console.error(error);
         // res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
-            res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" });
+        console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
+        res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
 
 };
@@ -87,6 +89,7 @@ export const sendEmailWithAttachments = (req, res) => {
     } catch (error) {
         console.error(error);
         // res.status(500).send({ error: error, message: "No se pudo enviar el email desde:" + config.gmailAccount });
-        res.status(500).send({ error: error, message: "No se pudo enviar el email desde:"  });
+        console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
+        res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
 }

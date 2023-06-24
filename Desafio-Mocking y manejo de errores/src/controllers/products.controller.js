@@ -1,4 +1,5 @@
 import { productModel } from "../models/product.model.js";
+import { getErrorMessage } from './errorHandler.js';
 
 export const getPaginatedProducts = async (req, res) => {
     try {
@@ -23,8 +24,8 @@ export const getPaginatedProducts = async (req, res) => {
   
       res.render('products', { ...result, user });
     } catch (error) {
-      console.error("No se pudo obtener productos paginados con mongoose: " + error);
-      res.status(500).send({ error: "No se pudo obtener productos paginados con mongoose", message: error });
+      console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+      res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
     }
   };
 
@@ -33,8 +34,8 @@ export const getPaginatedProducts = async (req, res) => {
       const products = await productModel.find();
       res.send(products);
     } catch (error) {
-      console.error("No se pudo obtener productos con mongoose: " + error);
-      res.status(500).send({ error: "No se pudo obtener productos con mongoose", message: error });
+      console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+      res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
     }
   };
 
@@ -44,8 +45,8 @@ export const getPaginatedProducts = async (req, res) => {
       const product = await productModel.create({ code, title, description, price, thumbnail, stock, category, status });
       res.status(201).send(product);
     } catch (error) {
-      console.error("No se pudo crear el producto con mongoose: " + error);
-      res.status(500).send({ error: "No se pudo crear el producto con mongoose", message: error });
+      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_CREATE_PRODUCT')}`);
+      res.status(500).send(getErrorMessage('ERROR_CREATE_PRODUCT'));
     }
   };
 
@@ -56,13 +57,14 @@ export const getPaginatedProducts = async (req, res) => {
       const deletedProduct = await productModel.findByIdAndDelete(productId);
   
       if (!deletedProduct) {
-        return res.status(404).json({ message: 'Producto no encontrado' });
+        console.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
+        res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
       }
   
       res.status(200).json({ message: 'Producto eliminado correctamente' });
     } catch (error) {
-      console.error("No se pudo eliminar el producto con mongoose: " + error);
-      res.status(500).send({ error: "No se pudo eliminar el producto con mongoose", message: error });
+      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
+      res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
     }
   };
 
@@ -74,7 +76,8 @@ export const getPaginatedProducts = async (req, res) => {
       // Verificar si el producto existe
       const product = await productModel.findById(productId);
       if (!product) {
-        return res.status(404).json({ message: 'Producto no encontrado' });
+        console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+        res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
       }
   
       // Actualizar el stock del producto
@@ -83,7 +86,7 @@ export const getPaginatedProducts = async (req, res) => {
   
       res.status(200).json({ message: 'Stock del producto actualizado correctamente' });
     } catch (error) {
-      console.error("No se pudo actualizar el stock del producto con mongoose: " + error);
-      res.status(500).send({ error: "No se pudo actualizar el stock del producto con mongoose", message: error });
+      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_UPDATE_PRODUCT')}`);
+      res.status(500).send(getErrorMessage('ERROR_UPDATE_PRODUCT'));
     }
   };
