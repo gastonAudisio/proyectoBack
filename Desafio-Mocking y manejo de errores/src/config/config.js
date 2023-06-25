@@ -15,15 +15,12 @@ console.log("Options: ", program.opts());
 console.log("Mode: ", program.opts().mode);
 console.log("port: ", program.opts().port);
 
-// const environment = program.mode;
-// const environment = program.opts().mode;
 const environment = program.opts().mode;
 
 dotenv.config({
-    path: environment === "production" ? "./src/config/.env.production" : "./src/config/.env.development"
+    path: environment === "production" ? "./config/.env.production" : "./config/.env.development"
 });
 
-// console.log(process.env.ADMIN_NAME);
 
 export default {
     port: process.env.PORT,
@@ -33,3 +30,4 @@ export default {
     gmailAccount: process.env.GMAIL_ACCOUNT,
     gmailAppPassword: process.env.GMAIL_APP_PASSWD,
 };
+

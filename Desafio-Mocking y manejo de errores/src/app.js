@@ -53,8 +53,8 @@ app.set('view engine', 'handlebars');
 //Carpeta public
 app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
-const SERVER_PORT = 9090;
-// const SERVER_PORT = config.port;
+// const SERVER_PORT = 9090;
+const SERVER_PORT = config.port;
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
