@@ -51,39 +51,38 @@ const mailOptionsWithAttachments = {
     ]
 }
 
-export const sendEmail = (req, res) => {
-    // Logica
+export const sendEmail = async (req, res) => {
     try {
-        let result = transporter.sendMail(mailOptions, (error, info) => {
+        await transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error);
-                res.status(400).send({ message: "Error", payload: error })
+                res.status(400).send({ message: "Error", payload: error });
+            } else {
+                console.log('Message sent: ', info.messageId);
+                res.send({ message: "Success", payload: info });
             }
-            console.log('Message sent: ', info.messageId);
-            res.send({ message: "Success", payload: info })
-        })
+        });
     } catch (error) {
         console.error(error);
         console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
         res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
-
 };
 
-export const sendEmailWithAttachments = (req, res) => {
-    // Logica
+export const sendEmailWithAttachments = async (req, res) => {
     try {
-        let result = transporter.sendMail(mailOptionsWithAttachments, (error, info) => {
+        await transporter.sendMail(mailOptionsWithAttachments, (error, info) => {
             if (error) {
                 console.log(error);
-                res.status(400).send({ message: "Error", payload: error })
+                res.status(400).send({ message: "Error", payload: error });
+            } else {
+                console.log('Message sent: ', info.messageId);
+                res.send({ message: "Success", payload: info });
             }
-            console.log('Message sent: ', info.messageId);
-            res.send({ message: "Success", payload: info })
-        })
+        });
     } catch (error) {
         console.error(error);
         console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
         res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
-}
+};

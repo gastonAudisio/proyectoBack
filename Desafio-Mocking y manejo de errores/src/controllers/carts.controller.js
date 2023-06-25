@@ -2,6 +2,8 @@ import { cartModel } from "../models/cart.model.js";
 import { productModel } from "../models/product.model.js";
 import { ticketService } from "../service/ticketService.js";
 import { getErrorMessage } from './errorHandler.js';
+import { sendEmail } from './email.controller.js';
+
 export const renderCarts = async (req, res) => {
   try {
     const carts = await cartModel.find().populate("products.product").lean();
@@ -184,7 +186,14 @@ export const purchaseTicket = async (req, res) => {
     console.log('Email de la compra = ' + userEmail);
     // Crear un ticket con los datos de la compra y los productos no procesados
     await ticketService.createTicket(cart, failedProducts, userEmail);
-
+    // Envía el correo electrónico al usuario
+    const emailOptions = {
+      from: 'Tu Tienda Online',
+      to: userEmail,
+      subject: 'Confirmación de compra',
+      text: 'Gracias por tu compra. ¡Hemos recibido tu pedido!',
+    };
+    await sendEmail(emailOptions); 
     res.json({ message: 'Compra realizada con éxito' });
   } catch (error) {
     console.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_PURCHASER')}`);
