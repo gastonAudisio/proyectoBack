@@ -19,10 +19,10 @@ export default class MongoSingleton {
 
     #connectMongoDB = async ()=>{
         try {
-            // await mongoose.connect(config.mongoUrl);
-            const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
-            await mongoose.connect(DB);
-            console.log(DB);
+            await mongoose.connect(config.mongoUrl);
+                console.log('DataBase = '+ config.mongoUrl);
+
+
             console.log("Conectado con exito a MongoDB usando Moongose.");
         } catch (error) {
             console.error("No se pudo conectar a la BD usando Moongose: " + error);
