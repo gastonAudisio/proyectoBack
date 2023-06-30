@@ -54,7 +54,6 @@ const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
 
-console.log('PRUEBA');
 
 
 //--------------------------------------------------------
