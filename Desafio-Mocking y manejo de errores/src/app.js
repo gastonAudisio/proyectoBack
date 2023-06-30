@@ -8,10 +8,8 @@ import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import {Server} from 'socket.io'
-// import ProductManager from './service/ProductManager.js';
 import mongoose from 'mongoose';
 import { productModel } from "./models/product.model.js";
-// import { cartModel } from "./models/cart.model.js";
 import usersViewRouter from './routes/users.views.router.js';
 import sessionsRouter from './routes/sessions.router.js'
 import session from 'express-session';
@@ -25,19 +23,16 @@ import cors from 'cors';
 import chatRouter from "./routes/chat.router.js"
 import emailRouter from "./routes/email.router.js"
 import mockingProductsRouter from './routes/mockingProducts.router.js';
+import loggerTestRouter from './routes/loggerTest.router.js';
+import { addLogger } from './config/logger.js';
 //------------------------------------------------------------
-
 const app = express();
-// const userManager = new ProductManager()
-
-
+app.use(addLogger);
 app.use(cors());
 //--------------------------------------------------------
 //Preparar la configuracion del servidor para recibir objetos JSON.
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
-
 //--------------------------------------------------------
 app.get("/", (req, res)=>{
    res.send("Hola mundo!");
@@ -59,6 +54,8 @@ const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
 
+console.log('PRUEBA');
+
 
 //--------------------------------------------------------
 // const socketServer = new Server
@@ -67,6 +64,7 @@ let messages = []
 // Abrimos el canal de comunicacion
 socketServer.on('connection', socket=>{
     console.log('conectado a socketServer!');
+    
     // socket.on("product", product =>{
     // userManager.addProductForm(product)
     // })
@@ -97,17 +95,9 @@ socket.on('userConnected', data =>{
 
 //--------------------------------------------------------
 
-    // Conectamos la base de datos
-    const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
-//     const connectMongoDB = async()=>{
-//         try {
-//             await mongoose.connect(DB)
-//             console.log("Conectado con exito a MongoDB usando Mongoose");
-//         } catch (error) {
-//             console.error("No se pudo conectar a la BD usando Moongose: " + error);
-//             process.exit();
-//         }
-// }
+// Conectamos la base de datos
+const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
+
 const mongoInstance = async () => {
     try {
         await MongoSingleton.getInstance();
@@ -144,7 +134,6 @@ app.use("/github", githubLoginViewRouter);
 app.use("/chat", chatRouter);
 app.use("/api/email", emailRouter);
 app.use("/mockingproducts", mockingProductsRouter);
-// connectMongoDB()
-
+app.get("/loggerTest", loggerTestRouter);
 
 

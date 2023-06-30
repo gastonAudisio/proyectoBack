@@ -3,6 +3,7 @@ import config from '../config/config.js';
 import __dirname from '../utils.js'
 import { getErrorMessage } from './errorHandler.js';
 
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
@@ -15,8 +16,11 @@ const transporter = nodemailer.createTransport({
 transporter.verify(function (error, success) {
     if (error) {
         console.log(error);
+        
+        
     } else {
         console.log('Server is ready to take our messages');
+
     }
 });
 
@@ -55,16 +59,16 @@ export const sendEmail = async (req, res) => {
     try {
         await transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error);
+                req.logger.error(error);
                 res.status(400).send({ message: "Error", payload: error });
             } else {
-                console.log('Message sent: ', info.messageId);
+                req.logger.debug('Message sent: ' + info.messageId);
                 res.send({ message: "Success", payload: info });
             }
         });
     } catch (error) {
-        console.error(error);
-        console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
+        req.logger.error(error);
+        req.logger.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
         res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
 };
@@ -73,16 +77,16 @@ export const sendEmailWithAttachments = async (req, res) => {
     try {
         await transporter.sendMail(mailOptionsWithAttachments, (error, info) => {
             if (error) {
-                console.log(error);
+                req.logger.error(error);
                 res.status(400).send({ message: "Error", payload: error });
             } else {
-                console.log('Message sent: ', info.messageId);
+                req.logger.debug('Message sent: ' + info.messageId);
                 res.send({ message: "Success", payload: info });
             }
         });
     } catch (error) {
-        console.error(error);
-        console.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
+        req.logger.error(error);
+        req.logger.error(`Error al enviar correo: ${getErrorMessage('ERROR_EMAIL')}`);
         res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
 };

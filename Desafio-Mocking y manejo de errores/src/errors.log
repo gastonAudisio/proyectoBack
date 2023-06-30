@@ -1,0 +1,113 @@
+warning: Prueba de log level warning!
+warning: Prueba de log level warning!
+warning: Prueba de log level warning!
+info: GET en /loggerTest - at 27/6/2023 - 18:36:18
+debug: Prueba de log level warning!
+info: GET en /loggerTest - at 27/6/2023 - 18:36:39
+debug: Prueba de log level debug!
+info: GET en /api/products/products - at 27/6/2023 - 18:40:39
+info: GET en /users/login - at 27/6/2023 - 18:40:39
+info: GET en /js/login.js - at 27/6/2023 - 18:40:40
+info: GET en /favicon.ico - at 27/6/2023 - 18:40:41
+info: POST en /api/sessions/login - at 27/6/2023 - 18:40:43
+info: GET en /api/products/products - at 27/6/2023 - 18:40:44
+info: GET en /js/logout.js - at 27/6/2023 - 18:40:45
+info: GET en /js/products.js - at 27/6/2023 - 18:40:45
+info: GET en /api/sessions/logout - at 27/6/2023 - 19:08:59
+info: GET en /users/login - at 27/6/2023 - 19:08:59
+info: GET en /js/login.js - at 27/6/2023 - 19:08:59
+info: POST en /api/sessions/login - at 27/6/2023 - 19:09:07
+info: GET en /api/products/products - at 27/6/2023 - 19:09:08
+info: GET en /js/logout.js - at 27/6/2023 - 19:09:09
+info: GET en /js/products.js - at 27/6/2023 - 19:09:09
+info: GET en /js/logout.js - at 27/6/2023 - 21:14:07
+info: GET en /js/products.js - at 27/6/2023 - 21:14:07
+debug: Prueba de log nivel debug!
+debug: Prueba de log nivel debug!
+debug: Prueba de log nivel debug!
+debug: User found to login:
+debug: {
+  _id: new ObjectId("6456ad3b9b6a8abf43ddc5fb"),
+  first_name: 'gas',
+  last_name: 'gas',
+  email: 'gas',
+  age: 14,
+  password: '$2b$10$8z0ysJ.BQLfZc3IHLElaJO5Ex0Ir0ieJE/9skcKq5Unip4Ly9lbMK',
+  __v: 0
+}
+debug: User found to login:
+debug: {
+  _id: new ObjectId("6456ad3b9b6a8abf43ddc5fb"),
+  first_name: 'gas',
+  last_name: 'gas',
+  email: 'gas',
+  age: 14,
+  password: '$2b$10$8z0ysJ.BQLfZc3IHLElaJO5Ex0Ir0ieJE/9skcKq5Unip4Ly9lbMK',
+  __v: 0
+}
+debug: no es admin
+debug: carrito numero 649e2a1f377880d1ddcbf5fe creado con exito
+debug: User found to login:
+debug: {
+  _id: new ObjectId("6456ad3b9b6a8abf43ddc5fb"),
+  first_name: 'gas',
+  last_name: 'gas',
+  email: 'gas',
+  age: 14,
+  password: '$2b$10$8z0ysJ.BQLfZc3IHLElaJO5Ex0Ir0ieJE/9skcKq5Unip4Ly9lbMK',
+  __v: 0
+}
+debug: no es admin
+debug: carrito numero 649e2a51c26eda6bc020e30c creado con exito
+info: GET en /api/sessions/logout - at 29/6/2023 - 22:14:44
+info: GET en /users/login - at 29/6/2023 - 22:14:45
+info: GET en /js/login.js - at 29/6/2023 - 22:14:45
+info: POST en /api/sessions/login - at 29/6/2023 - 22:14:49
+debug: User found to login:
+info: User found to login:
+debug: {
+  _id: new ObjectId("6456ad3b9b6a8abf43ddc5fb"),
+  first_name: 'gas',
+  last_name: 'gas',
+  email: 'gas',
+  age: 14,
+  password: '$2b$10$8z0ysJ.BQLfZc3IHLElaJO5Ex0Ir0ieJE/9skcKq5Unip4Ly9lbMK',
+  __v: 0
+}
+debug: no es admin
+debug: carrito numero 649e2c8ab7739db4c9a6d493 creado con exito
+info: GET en /api/products/products - at 29/6/2023 - 22:14:50
+info: GET en /js/logout.js - at 29/6/2023 - 22:14:51
+info: GET en /js/products.js - at 29/6/2023 - 22:14:51
+info: GET en /api/sessions/logout - at 29/6/2023 - 22:15:32
+info: GET en /users/login - at 29/6/2023 - 22:15:32
+info: GET en /js/login.js - at 29/6/2023 - 22:15:32
+info: POST en /api/sessions/login - at 29/6/2023 - 22:15:37
+debug: User found to login:
+info: User found to login:
+debug: {
+  _id: new ObjectId("6456ad3b9b6a8abf43ddc5fb"),
+  first_name: 'gas',
+  last_name: 'gas',
+  email: 'gas',
+  age: 14,
+  password: '$2b$10$8z0ysJ.BQLfZc3IHLElaJO5Ex0Ir0ieJE/9skcKq5Unip4Ly9lbMK',
+  __v: 0
+}
+debug: no es admin
+debug: carrito numero 649e2cb9cc0b10f44566caf3 creado con exito
+info: GET en /api/products/products - at 29/6/2023 - 22:15:38
+info: GET en /js/logout.js - at 29/6/2023 - 22:15:39
+info: GET en /js/products.js - at 29/6/2023 - 22:15:39
+info: GET en /loggerTest - at 29/6/2023 - 22:16:32
+debug: Prueba de log nivel debug!
+http: Prueba de log nivel http!
+info: Prueba de log nivel info!
+warning: Prueba de log nivel warning!
+error: Prueba de log nivel error!
+info: GET en /loggerTest - at 29/6/2023 - 22:17:01
+debug: Prueba de log nivel debug!
+http: Prueba de log nivel http!
+info: Prueba de log nivel info!
+warning: Prueba de log nivel warning!
+error: Prueba de log nivel error!

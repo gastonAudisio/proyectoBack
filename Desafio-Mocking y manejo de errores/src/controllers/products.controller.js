@@ -24,7 +24,7 @@ export const getPaginatedProducts = async (req, res) => {
   
       res.render('products', { ...result, user });
     } catch (error) {
-      console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+      req.logger.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
       res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
     }
   };
@@ -34,7 +34,7 @@ export const getPaginatedProducts = async (req, res) => {
       const products = await productModel.find();
       res.send(products);
     } catch (error) {
-      console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+      req.logger.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
       res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
     }
   };
@@ -45,7 +45,7 @@ export const getPaginatedProducts = async (req, res) => {
       const product = await productModel.create({ code, title, description, price, thumbnail, stock, category, status });
       res.status(201).send(product);
     } catch (error) {
-      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_CREATE_PRODUCT')}`);
+      req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_CREATE_PRODUCT')}`);
       res.status(500).send(getErrorMessage('ERROR_CREATE_PRODUCT'));
     }
   };
@@ -57,13 +57,13 @@ export const getPaginatedProducts = async (req, res) => {
       const deletedProduct = await productModel.findByIdAndDelete(productId);
   
       if (!deletedProduct) {
-        console.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
+        req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
         res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
       }
   
       res.status(200).json({ message: 'Producto eliminado correctamente' });
     } catch (error) {
-      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
+      req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
       res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
     }
   };
@@ -76,7 +76,7 @@ export const getPaginatedProducts = async (req, res) => {
       // Verificar si el producto existe
       const product = await productModel.findById(productId);
       if (!product) {
-        console.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
+        req.logger.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
         res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));
       }
   
@@ -86,7 +86,7 @@ export const getPaginatedProducts = async (req, res) => {
   
       res.status(200).json({ message: 'Stock del producto actualizado correctamente' });
     } catch (error) {
-      console.error(`Error al buscar productos: ${getErrorMessage('ERROR_UPDATE_PRODUCT')}`);
+      req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_UPDATE_PRODUCT')}`);
       res.status(500).send(getErrorMessage('ERROR_UPDATE_PRODUCT'));
     }
   };
