@@ -25,6 +25,8 @@ import emailRouter from "./routes/email.router.js"
 import mockingProductsRouter from './routes/mockingProducts.router.js';
 import loggerTestRouter from './routes/loggerTest.router.js';
 import { addLogger } from './config/logger.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUIExpress from 'swagger-ui-express';
 //------------------------------------------------------------
 const app = express();
 app.use(addLogger);
@@ -123,6 +125,8 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 //--------------------------------------------------------
+
+
 //Routers
 app.use('/',viewsRouter);
 app.use('/users',usersViewRouter);
@@ -135,4 +139,19 @@ app.use("/api/email", emailRouter);
 app.use("/mockingproducts", mockingProductsRouter);
 app.get("/loggerTest", loggerTestRouter);
 
-
+//--------------------------------------------------------
+// config de swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion API Ecommerce',
+            description: 'Documentacion para uso de swagger!'
+        }
+    },
+    apis: [`./src/docs/**/*.yaml`]
+}
+// creamos el specs
+const specs = swaggerJSDoc(swaggerOptions);
+// Declamos swagger API - endpoint
+app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
