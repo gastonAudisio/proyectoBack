@@ -143,7 +143,7 @@ app.get("/loggerTest", loggerTestRouter);
 // config de swagger
 const swaggerOptions = {
     definition: {
-        openapi: '3.0.1',
+        openapi: '3.1.0',
         info: {
             title: 'Documentacion API Ecommerce',
             description: 'Documentacion para uso de swagger!'
