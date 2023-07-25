@@ -51,13 +51,71 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
 
+
+
+//--------------------------------------------------------
+
+// Conectamos la base de datos
+const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
+
+const mongoInstance = async () => {
+    try {
+        await MongoSingleton.getInstance();
+    } catch (error) {
+        console.error(error);
+    }
+};
+mongoInstance();
+//--------------------------------------------------------
+app.use(session({
+
+    store:MongoStore.create({
+        mongoUrl:DB,
+        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
+        ttl: 40
+    }),
+    secret:"CoderS3cret",
+    resave: false,
+    saveUninitialized: true
+}))
+//--------------------------------------------------------
+//Middlewares Passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+//--------------------------------------------------------
+// config de swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.1.0',
+        info: {
+            title: 'Documentacion API Ecommerce',
+            description: 'Documentacion para uso de swagger!'
+        }
+    },
+    apis: [`src/docs/**/*.yaml`]
+}
+// creamos el specs
+const specs = swaggerJSDoc(swaggerOptions);
+// Declamos swagger API - endpoint
+app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
+
+//Routers
+app.use('/',viewsRouter);
+app.use('/users',usersViewRouter);
+app.use('/api/sessions',sessionsRouter);
+app.use("/api/products", productRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/github", githubLoginViewRouter);
+app.use("/chat", chatRouter);
+app.use("/api/email", emailRouter);
+app.use("/mockingproducts", mockingProductsRouter);
+app.get("/loggerTest", loggerTestRouter);
+//--------------------------------------------------------
 const SERVER_PORT = config.port;
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
-
-
-
 //--------------------------------------------------------
 // const socketServer = new Server
 const socketServer = new Server(httpServer);
@@ -93,65 +151,3 @@ socket.on('userConnected', data =>{
     socket.broadcast.emit('userConnected', data.user)
 })
 });
-
-//--------------------------------------------------------
-
-// Conectamos la base de datos
-const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
-
-const mongoInstance = async () => {
-    try {
-        await MongoSingleton.getInstance();
-    } catch (error) {
-        console.error(error);
-    }
-};
-mongoInstance();
-//--------------------------------------------------------
-app.use(session({
-
-    store:MongoStore.create({
-        mongoUrl:DB,
-        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
-        ttl: 40
-    }),
-    secret:"CoderS3cret",
-    resave: false,
-    saveUninitialized: true
-}))
-//--------------------------------------------------------
-//Middlewares Passport
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
-//--------------------------------------------------------
-
-
-//Routers
-app.use('/',viewsRouter);
-app.use('/users',usersViewRouter);
-app.use('/api/sessions',sessionsRouter);
-app.use("/api/products", productRouter);
-app.use("/api/carts", cartsRouter);
-app.use("/github", githubLoginViewRouter);
-app.use("/chat", chatRouter);
-app.use("/api/email", emailRouter);
-app.use("/mockingproducts", mockingProductsRouter);
-app.get("/loggerTest", loggerTestRouter);
-
-//--------------------------------------------------------
-// config de swagger
-const swaggerOptions = {
-    definition: {
-        openapi: '3.1.0',
-        info: {
-            title: 'Documentacion API Ecommerce',
-            description: 'Documentacion para uso de swagger!'
-        }
-    },
-    apis: [`./src/docs/**/*.yaml`]
-}
-// creamos el specs
-const specs = swaggerJSDoc(swaggerOptions);
-// Declamos swagger API - endpoint
-app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
