@@ -26,11 +26,13 @@ import mockingProductsRouter from './routes/mockingProducts.router.js';
 import loggerTestRouter from './routes/loggerTest.router.js';
 import { addLogger } from './config/logger.js';
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUIExpress from 'swagger-ui-express';
+import swaggerUiExpress from 'swagger-ui-express';
 //------------------------------------------------------------
 const app = express();
 app.use(addLogger);
 app.use(cors());
+
+
 //--------------------------------------------------------
 //Preparar la configuracion del servidor para recibir objetos JSON.
 app.use(express.json());
@@ -56,8 +58,7 @@ app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
 
 // Conectamos la base de datos
-const DB = 'mongodb+srv://admin:audisio1@cluster0.7on3jcb.mongodb.net/ecommerce?retryWrites=true&w=majority'
-
+const DB = config.mongoUrl
 const mongoInstance = async () => {
     try {
         await MongoSingleton.getInstance();
@@ -84,22 +85,22 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 //--------------------------------------------------------
-// config de swagger
+// confi de swagger
 const swaggerOptions = {
     definition: {
-        openapi: '3.1.0',
+        openapi: '3.0.1',
         info: {
-            title: 'Documentacion API Ecommerce',
-            description: 'Documentacion para uso de swagger!'
+            title: 'Documentacion API Adopme',
+            description: 'Documentacion para uso de swagger!!'
         }
     },
-    apis: [`src/docs/**/*.yaml`]
+    apis: [`./src/docs/**/*.yaml`]
 }
+
 // creamos el specs
 const specs = swaggerJSDoc(swaggerOptions);
 // Declamos swagger API - endpoint
-app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs));
-
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 //Routers
 app.use('/',viewsRouter);
 app.use('/users',usersViewRouter);
@@ -151,3 +152,5 @@ socket.on('userConnected', data =>{
     socket.broadcast.emit('userConnected', data.user)
 })
 });
+
+export default app;
