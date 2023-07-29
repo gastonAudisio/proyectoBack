@@ -35,7 +35,7 @@ router.put("/:id",authUser, addProductToCart);
 router.delete("/:id/products/:pid", deleteProductFromCart);
 
 // PUT - ADD productId to cartId
-router.put("/:id/products/:pid",authUser, addProductIdToCartId);
+router.put("/:id/products/:pid",/*authUser,*/ addProductIdToCartId);
 
 // PUT - DELETE cartId
 router.delete("/:id",authUser, deleteCartById);

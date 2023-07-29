@@ -1,24 +1,50 @@
 import chai from 'chai';
-import chaiHttp from 'chai-http';
-import app from "../../src/app.js";
+import supertest from 'supertest';
 
 const expect = chai.expect;
-chai.use(chaiHttp);
+const requester = supertest("http://localhost:9090/api/carts");
 
-describe('Product API', () => {
-  // Test para la ruta GET /api/carts
-  describe('GET /api/carts', () => {
+
+describe('Test router Cart', function () {
+
+    before(function () {
+        this.cartId = null;
+        this.productIdInCart = null;
+    });
+
+    it('Se debe crear un cart', async function () {
+        const { statusCode, body } = await requester.post('/');
+        expect(statusCode).to.be.ok;
+        expect(body).to.have.a.property('_id');
+         // Capturar el ID del carrito creado
+        this.cartId = body._id;
+        console.log('Carrito creado con ID:', this.cartId);
+    });
+    //-------------------------------------
+    it('Se debe agregar un producto al carrito', async function () {
+
+      const product = {
+        "code": "c1c111a",
+        "title": "c1c111a",
+        "description":"libro",
+        "price": 13000,
+        "thumbnail":"sdfsdfdsf",
+        "stock": 50,
+        "category": "accion",
+        "status": true,
+      };
+      const { body: { _id: productID } } = await supertest('http://localhost:9090/api/products').post('/').send(product);
     
-    it('Debería devolver todos los carts', (done) => {
-      chai
-        .request(app)
-        .get('/api/carts')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res).to.be.json;
-          expect(res.body).to.be.an('array');
-          done();
-        });
-    }).timeout(5000); 
-  });
+      this.productIdInCart = productID;
+    
+      const { statusCode, body } = await requester.post(`/${this.cartId}/products/${productID}`);
+    
+      expect(statusCode).to.be.ok;
+      expect(body).and.contain(`${this.cartId}`).and.contain(`${productID}`);
+    
+    });
+    
+
 });
+
+

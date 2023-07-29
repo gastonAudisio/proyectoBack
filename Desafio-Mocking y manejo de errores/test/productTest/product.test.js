@@ -10,7 +10,7 @@ describe('Tests router Product', async function () {
         this.productId = null;
     });
 
-    it('Los productos mockeados deben tener status 200', async function () {
+    it('Devuelve todo los productos y deben tener status 200', async function () {
         const { statusCode, body } = await requester.get('/');
         expect(statusCode).to.be.ok;
     });
@@ -18,8 +18,8 @@ describe('Tests router Product', async function () {
     it('Se debe crear un producto y el statuscode debe ser 201', async function () {
 
         const product = {
-          "code": "afgo11asdffdsdfddmf",
-          "title": "chanchannndsdfnddmn",
+          "code": "c1c1",
+          "title": "c1c1",
           "description":"libro",
           "price": 13000,
           "thumbnail":"sdfsdfdsf",
@@ -28,9 +28,7 @@ describe('Tests router Product', async function () {
           "status": true,
         };
         const { statusCode, body } =
-        await requester
-            .post('/')
-            .send(product);
+        await requester.post('/').send(product);
     this.productId = body._id;
     console.log('Producto Agregado:', body);
     expect(statusCode).to.be.equal(201);
