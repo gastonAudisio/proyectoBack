@@ -21,11 +21,5 @@ describe('Product API', () => {
         });
     }).timeout(5000); 
   });
-
-  // Otros tests para otros métodos y rutas de productRouter
-  // describe('POST /api/products', () => { ... });
-  // describe('GET /api/products/:id', () => { ... });
-  // describe('PUT /api/products/:id', () => { ... });
-  // describe('DELETE /api/products/:id', () => { ... });
 });
 
