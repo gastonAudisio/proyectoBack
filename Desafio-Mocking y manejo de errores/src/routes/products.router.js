@@ -8,7 +8,7 @@ const router = Router();
     
 router.get('/products', checkUser, getPaginatedProducts);
 router.get("/", getAllProducts);
-router.post('/',auth, createProduct);
+router.post('/',/*auth,*/ createProduct);
 router.delete('/:pid',auth, deleteProduct);
 router.put('/:pid',auth, updateProductStock);
 

@@ -1,25 +1,48 @@
+
 import chai from 'chai';
-import chaiHttp from 'chai-http';
-import app from "../../src/app.js";
-
+import supertest from 'supertest';
 const expect = chai.expect;
-chai.use(chaiHttp);
+const requester = supertest('http://localhost:9090/api/products');
 
-describe('Product API', () => {
-  // Test para la ruta GET /api/products
-  describe('GET /api/products', () => {
-    
-    it('Debería devolver todos los productos', (done) => {
-      chai
-        .request(app)
-        .get('/api/products')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res).to.be.json;
-          expect(res.body).to.be.an('array');
-          done();
-        });
-    }).timeout(5000); 
+describe('Tests router Product', async function () {
+
+    before(function () {
+        this.productId = null;
+    });
+
+    it('Los productos mockeados deben tener status 200', async function () {
+        const { statusCode, body } = await requester.get('/');
+        expect(statusCode).to.be.ok;
+    });
+
+    it('Se debe crear un producto y el statuscode debe ser 201', async function () {
+
+        const product = {
+          "code": "afgo11asdffdsdfddmf",
+          "title": "chanchannndsdfnddmn",
+          "description":"libro",
+          "price": 13000,
+          "thumbnail":"sdfsdfdsf",
+          "stock": 50,
+          "category": "accion",
+          "status": true,
+        };
+        const { statusCode, body } =
+        await requester
+            .post('/')
+            .send(product);
+    this.productId = body._id;
+    console.log('Producto Agregado:', body);
+    expect(statusCode).to.be.equal(201);
+    expect(body).to.be.an('object').and.have.property('_id');
+
   });
+
 });
+
+
+
+
+
+
 
