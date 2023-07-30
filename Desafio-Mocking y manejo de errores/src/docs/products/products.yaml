@@ -2,3 +2,7 @@ paths:
   /api/products/:
     get:
       summary: Trae todos los productos disponibles en la aplicacion.
+      tags:
+        - Products
+
+

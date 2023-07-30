@@ -85,22 +85,7 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 //--------------------------------------------------------
-// confi de swagger
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.1',
-        info: {
-            title: 'Documentacion API Adopme',
-            description: 'Documentacion para uso de swagger!!'
-        }
-    },
-    apis: [`./src/docs/**/*.yaml`]
-}
 
-// creamos el specs
-const specs = swaggerJSDoc(swaggerOptions);
-// Declamos swagger API - endpoint
-app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 //Routers
 app.use('/',viewsRouter);
 app.use('/users',usersViewRouter);
@@ -117,6 +102,22 @@ const SERVER_PORT = config.port;
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
+// config de swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion API Ecommerce',
+            description: 'Documentacion para uso de swagger!!'
+        }
+    },
+    apis: [`./docs/**/*.yaml`]
+}
+// creamos el specs   apis: [`./src/docs/**/*.yaml`]
+const specs = swaggerJSDoc(swaggerOptions);
+console.log(specs);
+// Declamos swagger API - endpoint
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 //--------------------------------------------------------
 // const socketServer = new Server
 const socketServer = new Server(httpServer);
@@ -152,5 +153,6 @@ socket.on('userConnected', data =>{
     socket.broadcast.emit('userConnected', data.user)
 })
 });
+
 
 export default app;

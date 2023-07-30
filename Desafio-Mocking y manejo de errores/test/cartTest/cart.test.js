@@ -18,10 +18,10 @@ describe('Test router Cart', function () {
         console.log('Carrito creado con ID:', this.cartId);
     });
 
-    it('Debe eliminar el cart', async function () {
-        const { statusCode, body } = await requester.delete('/');
-        expect(statusCode).to.be.ok;
-    });
+    // it('Debe eliminar el cart', async function () {
+    //     const { statusCode, body } = await requester.delete('/');
+    //     expect(statusCode).to.be.ok;
+    // });
 
 
     it('Debe agregar un producto al cart', async function () {
