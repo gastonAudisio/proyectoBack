@@ -10,31 +10,37 @@ describe('Tests router Product', async function () {
         this.productId = null;
     });
 
-    it('Devuelve todo los productos y deben tener status 200', async function () {
+    it('Debe devolver todos los productos', async function () {
         const { statusCode, body } = await requester.get('/');
         expect(statusCode).to.be.ok;
     });
 
-    it('Se debe crear un producto y el statuscode debe ser 201', async function () {
+    it('Debe crear un producto', async function () {
 
         const product = {
-          "code": "c1c1",
-          "title": "c1c1",
+          "code": "c1c1333a",
+          "title": "c1c1333a",
           "description":"libro",
           "price": 13000,
           "thumbnail":"sdfsdfdsf",
           "stock": 50,
-          "category": "accion",
+          "category": "terror",
           "status": true,
         };
-        const { statusCode, body } =
-        await requester.post('/').send(product);
+        const { statusCode, body } = await requester.post('/').send(product);
     this.productId = body._id;
     console.log('Producto Agregado:', body);
     expect(statusCode).to.be.equal(201);
     expect(body).to.be.an('object').and.have.property('_id');
-
   });
+
+  it('Debe eliminar el producto', async function () {
+
+    const { statusCode, body } = await requester.delete(`/${this.productId}`);
+
+    expect(statusCode).to.be.ok;
+});
+
 
 });
 
