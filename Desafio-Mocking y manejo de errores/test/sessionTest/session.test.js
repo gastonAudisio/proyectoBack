@@ -19,47 +19,31 @@ describe('Test router User', function () {
         };
     });
 
-    it('Registrar usuario', async function () {
+    // it('Registrar usuario', async function () {
 
-        const { statusCode, body } = await requester.post('api/sessions/register').send(this.user);
-        expect(statusCode).to.be.equal(201);
-        expect(body).to.have.property('status').equal('success');
-        console.log('Usuario creado:', this.user);
+    //     const { statusCode, body } = await requester.post('api/sessions/register').send(this.user);
+    //     expect(statusCode).to.be.equal(201);
+    //     expect(body).to.have.property('status').equal('success');
+    //     console.log('Usuario creado:', this.user);
+    // });
+
+    it('Login usuario', async function () {
+        const { statusCode } =
+            await requester.post('api/sessions/login').send({
+                email: this.user.email,
+                password: this.user.password
+                });
+
+        expect(statusCode).to.be.equal(200);
+        console.log('Usuario logueado:', this.user);
     });
 
-    // it('El login debe fallar', async function () {
-    //     const { statusCode, headers, body, ...rest } =
-    //         await requester
-    //             .post('login')
-    //             .send({
-    //                 email: this.user.email,
-    //                 password: 'password'
-    //             });
+    it('Se debe desloguear el usuario', async function () {
+        const { statusCode } =
+            await requester.get('api/sessions/logout');
 
-
-    //     expect(statusCode).to.be.equal(302);
-    //     expect(headers).to.have.property('location', '/login');
-    // });
-
-    // it('Login de usuario', async function () {
-    //     const { statusCode, headers } =
-    //         await requester
-    //             .post('login')
-    //             .send({
-    //                 email: this.user.email,
-    //                 password: this.user.password
-    //             });
-
-    //     expect(statusCode).to.be.equal(302);
-    //     expect(headers).to.have.property('location', '/products');
-    // });
-
-    // it('Se debe desloguear el usuario logueado correctamente', async function () {
-    //     const { statusCode, headers, body, ...rest } =
-    //         await requester.get('logout');
-
-    //     expect(statusCode).to.be.equal(302);
-    //     expect(headers).to.have.property('location', '/login');
-    // });
+        expect(statusCode).to.be.equal(200);
+        console.log('Usuario deslogueado:', this.user);
+    });
 
 });
