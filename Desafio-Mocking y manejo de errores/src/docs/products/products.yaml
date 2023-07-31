@@ -1,8 +1,65 @@
 paths:
   /api/products/:
     get:
-      summary: Trae todos los productos disponibles en la aplicacion.
+      summary: Trae todos los carritos creados.
       tags:
-        - Products
+        - Carts
+      responses:
+        "200":
+          description: La operacion fue exitosa!!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Products'
+        "400": 
+          description: Se envió un dato no esperado.
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.
 
+
+
+components:
+  schemas:
+    Products: 
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: Id autogenerado de MongoDB.
+        code: 
+          type: String
+          description: Codigo del producto.
+        title: 
+          type: String
+          description: Titulo del producto.
+        description: 
+          type: String
+          description: Descripcion del producto.
+        price: 
+          type: Number
+          description: Precio del producto.
+        thumbnail: 
+          type: String
+          description: Thumbnail del producto.
+        stock: 
+          type: Number
+          description: Stock del producto.
+        category: 
+          type: String
+          description: Categoria del producto.
+        status: 
+          type: Boolean
+          description: Status del producto.
+      example: 
+        _id: ObjectId("6491ae64bbce15d67f718c6b")
+        code: c1c1333a
+        title: c1c1333a
+        description: libro
+        price: 13000
+        thumbnail: sdfsdfdsf
+        stock: 50
+        category: terror
+        status: true
 

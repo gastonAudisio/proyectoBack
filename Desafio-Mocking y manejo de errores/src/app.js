@@ -113,7 +113,7 @@ const swaggerOptions = {
     },
     apis: [`./docs/**/*.yaml`]
 }
-// creamos el specs   apis: [`./src/docs/**/*.yaml`]
+// creamos el specs 
 const specs = swaggerJSDoc(swaggerOptions);
 console.log(specs);
 // Declamos swagger API - endpoint
