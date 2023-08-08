@@ -1,0 +1,32 @@
+paths:
+  /api/products/{pid}:
+    put:
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: "el id del producto"
+        - in: body
+          name: product
+          required: true
+          description: 'el stock modificado'
+          schema:
+            type: object
+            required:
+              - stock
+            properties:
+              stock:
+                type: number
+                description: "el stock del producto"
+      summary: "Actualiza el stock del producto por su id"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "El producto que se corresponde con el id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        "500":
+          description: "Error"

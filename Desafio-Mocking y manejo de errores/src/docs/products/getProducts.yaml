@@ -1,9 +1,9 @@
 paths:
   /api/products/:
     get:
-      summary: Trae todos los carritos creados.
+      summary: Trae todos los productos.
       tags:
-        - Carts
+        - Products
       responses:
         "200":
           description: La operacion fue exitosa!!
