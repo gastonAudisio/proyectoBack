@@ -1,0 +1,10 @@
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    gap: 10px; /* Espacio entre elementos */
+    
+}
+.background {
+    background-color: rgb(13, 55, 90);
+}
