@@ -166,11 +166,10 @@ export async function login(req, res) {
 
  export const renderLauncher = async (req, res) => {
   try {
-    const cartId = req.session.user.cart.cart_id; // Obtén el ID del carrito del objeto de usuario
-    console.log('Cart ID:', cartId);
+    const cartId = req.session.user.cart.cart_id; 
     const cart = await cartModel.findById(cartId).populate("products.product").lean();
-    console.log('llega a renderlauncher');
-    res.render("launcher", { cart });
+    console.log(cart);
+    res.render("launcher", { cart, cartId: cart._id });
   } catch (error) {
     req.logger.error(`Error al renderizar launcher: ${error.message}`);
     res.status(500).send(`Error al renderizar launcher: ${error.message}`);

@@ -46,6 +46,11 @@ router.delete("/:id/products", deleteAllProductsFromCart);
 // PROCESO DE COMPRA
 router.post("/:cid/purchase", purchaseTicket);
 
+// Ruta para la vista de compraRealizada
+router.get("/compraRealizada", (req, res) => {
+  res.render("compraRealizada");
+});
+
 
 
 export default router;

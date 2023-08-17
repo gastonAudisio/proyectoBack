@@ -192,21 +192,10 @@ export const purchaseTicket = async (req, res) => {
       text: 'Gracias por tu compra. ¡Hemos recibido tu pedido!',
     };
     await sendEmail(emailOptions);
-    res.json({ message: 'Compra realizada con éxito' });
+    // res.json({ message: 'Compra realizada con éxito' });
+    res.redirect('/api/carts/compraRealizada');
   } catch (error) {
     req. logger.error(`Error al obtener los carritos: ${getErrorMessage('ERROR_PURCHASER')}`);
     res.status(500).send(getErrorMessage('ERROR_PURCHASER'));
-  }
-};
-
-export const renderLauncher = async (req, res) => {
-  try {
-    const userId = req.session.user._id; 
-    const cart = await cartModel.findOne({ user: userId }).populate("products.product").lean();
-    console.log('llega a renderlauncher');
-    res.render("launcher", { cart });
-  } catch (error) {
-    req.logger.error(`Error al renderizar launcher: ${getErrorMessage('CART_NOT_FOUND')}`);
-    res.status(500).send(getErrorMessage('CART_NOT_FOUND'));
   }
 };

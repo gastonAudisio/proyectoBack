@@ -2,20 +2,26 @@
 
 <h2>Tus productos en el carrito</h2>
 
-<div>
+<div class="background">
   <h1>Cart ID: {{cart._id}}</h1>
-  {{#if cart}}
+  {{#if cart.products.length}}
     <h2>Tus productos en el carrito:</h2>
     <ul>
-      {{#each cart.products}}
-        <li>Code: {{this.product.code}}</li>
-        <li>Title: {{this.product.title}}</li>
-        <li>Description: {{this.product.description}}</li>
-        <li>Price: {{this.product.price}}</li>
-        <li>Category: {{this.product.category}}</li>
-      {{/each}}
+    {{#each cart.products}}
+      <li>Code: {{this.product.code}}</li>
+      <li>Title: {{this.product.title}}</li>
+      <li>Description: {{this.product.description}}</li>
+      <li>Price: {{this.product.price}}</li>
+      <li>Category: {{this.product.category}}</li>
+       <li>cantidad: {{this.quantity}}</li>
+       <br>
+    {{/each}}
     </ul>
+      
   {{else}}
-    <p>Cart not found.</p>
+    <p>Cart is empty.</p>
   {{/if}}
 </div>
+<form action="/api/carts/{{cartId}}/purchase" method="POST">
+  <button type="submit" id="comprar">Realizar Compra</button>
+</form>
