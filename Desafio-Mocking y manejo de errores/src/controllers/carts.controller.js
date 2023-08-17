@@ -198,3 +198,15 @@ export const purchaseTicket = async (req, res) => {
     res.status(500).send(getErrorMessage('ERROR_PURCHASER'));
   }
 };
+
+export const renderLauncher = async (req, res) => {
+  try {
+    const userId = req.session.user._id; 
+    const cart = await cartModel.findOne({ user: userId }).populate("products.product").lean();
+    console.log('llega a renderlauncher');
+    res.render("launcher", { cart });
+  } catch (error) {
+    req.logger.error(`Error al renderizar launcher: ${getErrorMessage('CART_NOT_FOUND')}`);
+    res.status(500).send(getErrorMessage('CART_NOT_FOUND'));
+  }
+};

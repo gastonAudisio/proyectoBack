@@ -27,6 +27,7 @@ import loggerTestRouter from './routes/loggerTest.router.js';
 import { addLogger } from './config/logger.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import launcherRouter from "./routes/launcher.router.js"
 //------------------------------------------------------------
 const app = express();
 app.use(addLogger);
@@ -40,23 +41,16 @@ app.use(express.urlencoded({extended: true}));
 //--------------------------------------------------------
 app.get("/", (req, res)=>{
    res.send("Hola mundo!");
-});//--------------------------------------------------------
-
+});
+//--------------------------------------------------------
 //Uso de vista de plantillas
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + "/views");
 app.set('view engine', 'handlebars');
 
-// app.use('/', viewsRouter)
-//--------------------------------------------------------
 //Carpeta public
 app.use(express.static(__dirname+'/public'));
 //--------------------------------------------------------
-
-
-
-//--------------------------------------------------------
-
 // Conectamos la base de datos
 const DB = config.mongoUrl
 const mongoInstance = async () => {
@@ -97,6 +91,8 @@ app.use("/chat", chatRouter);
 app.use("/api/email", emailRouter);
 app.use("/mockingproducts", mockingProductsRouter);
 app.get("/loggerTest", loggerTestRouter);
+app.use("/launcher", launcherRouter);
+
 //--------------------------------------------------------
 const SERVER_PORT = config.port;
 const httpServer = app.listen(SERVER_PORT, () => {
@@ -155,4 +151,3 @@ socket.on('userConnected', data =>{
 });
 
 
-export default app;

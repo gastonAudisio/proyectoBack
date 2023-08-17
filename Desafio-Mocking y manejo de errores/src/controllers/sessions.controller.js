@@ -2,7 +2,6 @@
 import { cartModel } from '../models/cart.model.js';
 import { generateJWToken } from '../utils.js';
 
-
 export async function githubCallback(req, res) {
   const user = req.user;
   req.logger.debug(user);
@@ -164,3 +163,27 @@ export async function login(req, res) {
       });
     }
   }
+
+ export const renderLauncher = async (req, res) => {
+  try {
+    const cartId = req.session.user.cart.cart_id; // Obtén el ID del carrito del objeto de usuario
+    console.log('Cart ID:', cartId);
+    const cart = await cartModel.findById(cartId).populate("products.product").lean();
+    console.log('llega a renderlauncher');
+    res.render("launcher", { cart });
+  } catch (error) {
+    req.logger.error(`Error al renderizar launcher: ${error.message}`);
+    res.status(500).send(`Error al renderizar launcher: ${error.message}`);
+  }
+};
+
+
+
+
+  
+  
+  
+  
+  
+  
+  

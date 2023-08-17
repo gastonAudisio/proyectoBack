@@ -1,16 +1,20 @@
+<h1>Realizar Compra</h1>
+
+<h2>Tus productos en el carrito</h2>
 
 <div>
   <h1>Cart ID: {{cart._id}}</h1>
   {{#if cart}}
-    {{#each cart.products}}
-      <ul>
+    <h2>Tus productos en el carrito:</h2>
+    <ul>
+      {{#each cart.products}}
         <li>Code: {{this.product.code}}</li>
         <li>Title: {{this.product.title}}</li>
         <li>Description: {{this.product.description}}</li>
         <li>Price: {{this.product.price}}</li>
         <li>Category: {{this.product.category}}</li>
-      </ul>
-    {{/each}}
+      {{/each}}
+    </ul>
   {{else}}
     <p>Cart not found.</p>
   {{/if}}

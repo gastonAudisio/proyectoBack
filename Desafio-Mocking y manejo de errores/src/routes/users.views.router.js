@@ -33,4 +33,8 @@ router.get("/current", (req, res)=>{
     });
 });
 
+router.get('/launcher', (req, res)=>{
+    res.render("launcher");
+})
+
 export default router;
