@@ -13,4 +13,5 @@ const schema = mongoose.Schema({
     password:String,
     loggedBy: String
 })
+
 export const userModel = mongoose.model(collection,schema);

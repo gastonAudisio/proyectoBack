@@ -1,6 +1,8 @@
 import {Router} from 'express';
 const router = Router();
 import {authToken} from '../utils.js';
+import { allUsers } from '../controllers/user.controller.js';
+
 
 router.get('/login', (req, res)=>{
     res.render("login");
@@ -18,7 +20,6 @@ router.get('/', (req, res)=>{
 
 router.get('/', authToken, (req, res)=>{
     res.render("profile", {
-        // user: req.session.user
         user: req.user
     });
 })
@@ -35,6 +36,9 @@ router.get("/current", (req, res)=>{
 
 router.get('/launcher', (req, res)=>{
     res.render("launcher");
-})
+});
+
+router.get('/allUsers', allUsers);
+
 
 export default router;

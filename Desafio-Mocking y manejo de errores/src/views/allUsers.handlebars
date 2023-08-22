@@ -1,0 +1,11 @@
+<ul>
+    {{#each users}}
+        <li>
+            <strong>Nombre:</strong> {{first_name}}
+            <strong>Apellido:</strong> {{last_name}}
+            {{#if email}}
+                <br><strong>Email:</strong> {{email}}
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>
