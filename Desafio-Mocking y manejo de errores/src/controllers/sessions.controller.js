@@ -82,6 +82,7 @@ export async function githubCallback(req, res) {
 
 export function register(req, res) {
   req.logger.info('Registrando nuevo usuario.');
+  const userEmail = req.body.email;
   res.status(201).send({ status: 'success', message: 'Usuario creado con éxito.' });
 }
 

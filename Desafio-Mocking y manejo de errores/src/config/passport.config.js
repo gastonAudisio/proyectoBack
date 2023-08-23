@@ -63,15 +63,21 @@ const initializePassport = ()=>{
                     console.log("El usuario ya existe.");
                     return done(null, false);
                 }
+                let rol = 'usuario'; 
+            if (email === 'adminCoder@coder.com') {
+                rol = 'admin'; 
+            }
                 const user = {
                     first_name,
                     last_name,
                     email,
                     age,
+                    rol,
                     password: createHash(password)
                 };
                 const result = await userModel.create(user);
                 console.log("Usuario creado con ID: " + result.id);
+                console.log(user);
                 return done(null, result);
             } catch (error) {
                 return done("Error registrando el usuario: " + error);

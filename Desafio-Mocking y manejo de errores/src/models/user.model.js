@@ -11,7 +11,8 @@ const schema = mongoose.Schema({
     },
     age: Number,
     password:String,
-    loggedBy: String
+    loggedBy: String,
+    rol: String
 })
 
 export const userModel = mongoose.model(collection,schema);
