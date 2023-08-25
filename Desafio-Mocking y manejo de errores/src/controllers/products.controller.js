@@ -43,7 +43,7 @@ export const getPaginatedProducts = async (req, res) => {
     try {
       const { code, title, description, price, thumbnail, stock, category, status } = req.body;
       const product = await productModel.create({ code, title, description, price, thumbnail, stock, category, status });
-      res.status(201).send(product);
+      res.status(201).json({ message: 'Producto creado correctamente', product });
     } catch (error) {
       req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_CREATE_PRODUCT')}`);
       res.status(500).send(getErrorMessage('ERROR_CREATE_PRODUCT'));

@@ -36,7 +36,8 @@ router.get('/logout', (req, res) => {
 });
 
 export function auth(req, res, next) {
-  if (req.session.user.email === 'adminCoder@coder.com' && req.session.admin) {
+  if (req.session.user.email === 'adminCoder@coder.com' && (req.session.admin = true) ) {
+    console.log(req.session.user.email);
     return next();
   } else {
     return res.status(403).send('Usuario no autorizado para ingresar al recurso');

@@ -52,7 +52,6 @@ document.querySelectorAll('.cartButton').forEach(btn => {
     });
   });
 });
-//----------------------------------------------------------------
 
 //----------------------------------------------------------------------
 document.querySelectorAll('.removeProductButton').forEach(btn => {
@@ -120,39 +119,47 @@ removeAllProducts.addEventListener('click', function(event) {
 });
 
 //------------------------------------------------------------------------------------
-
 function dataProduct() {
-  const inputCodigo = document.getElementById("codigo").value;
-  const inputTitulo = document.getElementById("titulo").value;
-  const inputDescripcion = document.getElementById("descripcion").value;
-  const inputPrecio = document.getElementById("precio").value;
-  const inputThumbnail = document.getElementById("thumbnail").value;
-  const inputStock = document.getElementById("stock").value;
-  const inputCategoria = document.getElementById("categoria").value;
-  const inputStatus = document.getElementById("status").value;
+  try {
+    const inputCodigo = document.getElementById("codigo").value;
+    const inputTitulo = document.getElementById("titulo").value;
+    const inputDescripcion = document.getElementById("descripcion").value;
+    const inputPrecio = document.getElementById("precio").value;
+    const inputThumbnail = document.getElementById("thumbnail").value;
+    const inputStock = document.getElementById("stock").value;
+    const inputCategoria = document.getElementById("categoria").value;
+    const inputStatus = document.getElementById("status").value;
 
-  if (!(inputCodigo == "" || inputTitulo == "" || inputDescripcion == "" || inputThumbnail == "" || inputCategoria == "")) {
-    if (isNaN(inputPrecio) || isNaN(inputStock)) {
-      return alert("Los campos Precio y Stock deben ser números");
-    } else {
-      const product = {
-        code: inputCodigo,
-        title: inputTitulo,
-        description: inputDescripcion,
-        price: inputPrecio,
-        thumbnail: inputThumbnail,
-        stock: inputStock,
-        category: inputCategoria,
-        status: inputStatus,
-      };
-      console.log(product)
-      return product;
-
+    if (inputCodigo === "" || inputTitulo === "" || inputDescripcion === "" || inputThumbnail === "" || inputCategoria === "") {
+      alert("Debe completar todos los campos");
+      return; // Termina la función sin continuar
     }
-  } else {
-    return alert("Debe completar todos los campos");
+
+    if (isNaN(inputPrecio) || isNaN(inputStock)) {
+      alert("Los campos Precio y Stock deben ser números");
+      return; // Termina la función sin continuar
+    }
+
+    const product = {
+      code: inputCodigo,
+      title: inputTitulo,
+      description: inputDescripcion,
+      price: inputPrecio,
+      thumbnail: inputThumbnail,
+      stock: inputStock,
+      category: inputCategoria,
+      status: inputStatus,
+    };
+
+    console.log(product);
+    socket.emit("productCreated", product);
+    alert("Producto creado correctamente");
+    return product;
+  } catch (error) {
+    alert("Ha ocurrido un error: " + error);
   }
 }
+
 
 
 
@@ -161,8 +168,12 @@ btnCrearProducto.addEventListener("click", (evt) => {
   socket.emit("product",productData);
 });
 
+
 deleteButton.addEventListener("click", (evt) =>{
   let id = getId()
   socket.emit("id", id)
 })
 
+socket.on("productDeleted", (data) => {
+  alert(data.message);
+});

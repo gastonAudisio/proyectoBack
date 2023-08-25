@@ -8,9 +8,9 @@ const router = Router();
     
 router.get('/products', checkUser, getPaginatedProducts);
 router.get("/", getAllProducts);
-router.post('/',/*auth,*/ createProduct);
-router.delete('/:pid',/*auth,*/ deleteProduct);
-router.put('/:pid',/*auth,*/ updateProductStock);
+router.post('/products',auth, createProduct);
+router.delete('/products/:pid',auth, deleteProduct);
+router.put('/:pid',auth, updateProductStock);
 
 
 export default router;

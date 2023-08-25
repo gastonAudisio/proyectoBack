@@ -54,7 +54,7 @@ const initializePassport = ()=>{
     passport.use('register', new localStrategy(
     
         { passReqToCallback: true, usernameField: 'email' },
-        async(req, username, password, done) =>{
+        async(req, password, done) =>{
             const { first_name, last_name, email, age } = req.body;
             try {
 
@@ -92,29 +92,32 @@ const initializePassport = ()=>{
         { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
             try {
                 const email = username;
+                let user;
+    
                 // Verificar si el correo electrónico es igual al del administrador
-                if (email === 'adminCoder@coder.com' && password === '$2b$10$j25iwNSa.pjPky3qkmuJHO7yIZgNH8Dp5MIpyHL9F4kmYkB3YJrt2') 
-                {
-                    const user = await userModel.findOne({ email: username }); 
-                    if(!user) return done(null, false);
-                    
-                        if(!isValidPassword(user,password )){
-                            return done(null, false);
-                    }
-                    console.log(user.email + ' logueado con exito');
-                    return done(null, user);
+                if (email === 'adminCoder@coder.com' && password === '$2b$10$j25iwNSa.pjPky3qkmuJHO7yIZgNH8Dp5MIpyHL9F4kmYkB3YJrt2') {
+                    user = await userModel.findOne({ email: username });
                 } else {
-                    const user = await userModel.findOne({email}); 
-                    if(!user)return done(null, false);
-                        if(!isValidPassword(user,password )){
-                            return done(null, false);
-                    }
-                    return done(null, user);
-                    }
+                    user = await userModel.findOne({ email });
+                }
+    
+                if (!user) {
+                    console.log('Usuario no encontrado');
+                    return done(null, false);
+                }
+    
+                if (!isValidPassword(user, password)) {
+                    console.log('Contraseña incorrecta');
+                    return done(null, false);
+                }
+    
+                console.log(user.email + ' logueado con exito');
+                return done(null, user);
             } catch (error) {
                 return done(error);
             }
         })
+    
     );
 
 

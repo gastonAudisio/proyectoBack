@@ -83,6 +83,7 @@ export async function githubCallback(req, res) {
 export function register(req, res) {
   req.logger.info('Registrando nuevo usuario.');
   const userEmail = req.body.email;
+  console.log(userEmail);
   res.status(201).send({ status: 'success', message: 'Usuario creado con éxito.' });
 }
 
@@ -92,9 +93,8 @@ export async function login(req, res) {
     const user = req.user;
     req.logger.debug(user);
   
-    if (user.email === 'adminCoder@coder.com' && user.password === '$2b$10$j25iwNSa.pjPky3qkmuJHO7yIZgNH8Dp5MIpyHL9F4kmYkB3YJrt2') {
-      req.session.admin = true;
-      
+    if (user.email === 'adminCoder@coder.com' && user.password === '$2b$10$ccVp7aCjfclSqXAm1aa1C.JzESCcgmISj.89c4eKEp5XFGal4AhSi') {
+      req.session.admin = true;                                     
       req.logger.debug('es admin');
       if (!user) return  res.status(401).send(getErrorMessage('INVALID_CREDENTIALS'));
   

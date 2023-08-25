@@ -120,21 +120,20 @@ const socketServer = new Server(httpServer);
 let messages = []
 // Abrimos el canal de comunicacion
 socketServer.on('connection', socket=>{
-    console.log('conectado a socketServer!');
     
-    // socket.on("product", product =>{
-    // userManager.addProductForm(product)
-    // })
-    // socket.on("id", data => {
-    // userManager.deleteProduct(data)
-    // })
     socket.on("product", async product =>{
         const newProduct = await productModel.create(product);
         console.log("Producto creado:", newProduct);
+        socketServer.emit("productCreated", { message: "Producto creado correctamente" });
     });
     socket.on("id", async data => {
         const deletedProduct = await productModel.deleteOne({_id: data});
         console.log("Producto eliminado:", deletedProduct);
+        if (deletedProduct.deletedCount > 0) {
+            socketServer.emit("productDeleted", { message: "Producto eliminado correctamente" });
+          } else {
+            socketServer.emit("productDeleted", { message: "Producto no encontrado para eliminar" });
+          }
     });
 
 //---------------chat----------------//

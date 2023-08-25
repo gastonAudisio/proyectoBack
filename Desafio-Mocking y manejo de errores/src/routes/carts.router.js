@@ -29,16 +29,16 @@ router.get("/", getAllCarts);
 router.post('/', createCart);
 
 // PUT - ADD PRODUCT TO CART
-router.put("/:id",/*authUser,*/ addProductToCart);
+router.put("/:id",authUser, addProductToCart);
 
 // DELETE ONE PRODUCT
 router.delete("/:id/products/:pid", deleteProductFromCart);
 
 // PUT - ADD productId to cartId
-router.put("/:id/products/:pid",/*authUser,*/ addProductIdToCartId);
+router.put("/:id/products/:pid",authUser, addProductIdToCartId);
 
 // PUT - DELETE cartId
-router.delete("/:id",/*authUser,*/ deleteCartById);
+router.delete("/:id",authUser, deleteCartById);
 
 // DELETE ALL PRODUCTS
 router.delete("/:id/products", deleteAllProductsFromCart);
