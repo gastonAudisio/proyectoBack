@@ -54,8 +54,8 @@ const initializePassport = ()=>{
     passport.use('register', new localStrategy(
     
         { passReqToCallback: true, usernameField: 'email' },
-        async(req, password, done) =>{
-            const { first_name, last_name, email, age } = req.body;
+        async(req,email, password, done) =>{
+            const { first_name, last_name, age } = req.body;
             try {
 
                 const exists = await userModel.findOne({ email });

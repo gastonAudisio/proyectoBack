@@ -90,3 +90,23 @@ export const sendEmailWithAttachments = async (req, res) => {
         res.status(500).send(getErrorMessage('ERROR_EMAIL'));
     }
 };
+
+export const sendInactiveAccountEmail = async (email) => {
+    const inactiveAccountMailOptions = {
+        from: "Your App " + config.gmailAccount,
+        to: email,
+        subject: "Eliminación de cuenta por inactividad",
+        html: `<div>
+                <h1>Tu cuenta ha sido eliminada por inactividad.</h1>
+                <p>Si deseas volver a utilizar nuestros servicios, por favor regístrate nuevamente.</p>
+            </div>`,
+        attachments: []
+    };
+
+    try {
+        await transporter.sendMail(inactiveAccountMailOptions);
+        console.log(`Correo de eliminación de cuenta enviado a: ${email}`);
+    } catch (error) {
+        console.error(`Error al enviar correo de eliminación de cuenta a ${email}:`, error);
+    }
+};

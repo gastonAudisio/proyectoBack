@@ -1,5 +1,6 @@
 
 import { cartModel } from '../models/cart.model.js';
+import { userModel } from '../models/user.model.js';
 import { generateJWToken } from '../utils.js';
 
 export async function githubCallback(req, res) {
@@ -92,6 +93,15 @@ export async function login(req, res) {
     req.logger.info('User found to login:');
     const user = req.user;
     req.logger.debug(user);
+
+    
+      const updatedUser = await userModel.findByIdAndUpdate(
+          user._id,
+          { lastConnection: new Date() }, // Actualiza el campo lastConnection con la fecha actual
+          { new: true } // Retorna el usuario actualizado después de la actualización
+      );
+      console.log('Usuario lastConnection actualizado:', updatedUser);
+
   
     if (user.email === 'adminCoder@coder.com' && user.password === '$2b$10$ccVp7aCjfclSqXAm1aa1C.JzESCcgmISj.89c4eKEp5XFGal4AhSi') {
       req.session.admin = true;                                     

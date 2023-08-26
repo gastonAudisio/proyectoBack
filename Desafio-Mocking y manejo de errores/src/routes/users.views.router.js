@@ -1,8 +1,8 @@
 import {Router} from 'express';
 const router = Router();
 import {authToken} from '../utils.js';
-import { allUsers } from '../controllers/user.controller.js';
-
+import { allUsers,handleInactiveUsersDeletion  } from '../controllers/user.controller.js';
+import { auth } from '../routes/sessions.router.js'
 
 router.get('/login', (req, res)=>{
     res.render("login");
@@ -39,6 +39,17 @@ router.get('/launcher', (req, res)=>{
 });
 
 router.get('/allUsers', allUsers);
+
+// Endpoint DELETE para eliminar usuarios inactivos
+router.delete('/deleteInactive', auth, async (req, res) => {
+    try {
+        await handleInactiveUsersDeletion(); 
+        res.status(200).json({ message: 'Usuarios inactivos eliminados y correos enviados' });
+    } catch (error) {
+        console.error('Error al eliminar usuarios inactivos:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
 
 
 export default router;
