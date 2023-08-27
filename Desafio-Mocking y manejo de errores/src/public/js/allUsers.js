@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded event fired');
+    
     const deleteLinks = document.querySelectorAll('.delete-user');
 
     deleteLinks.forEach(link => {
