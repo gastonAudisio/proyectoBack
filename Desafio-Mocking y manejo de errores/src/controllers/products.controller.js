@@ -1,5 +1,7 @@
 import { productModel } from "../models/product.model.js";
 import { getErrorMessage } from './errorHandler.js';
+import { sendProductDeletionEmail } from './email.controller.js';
+import { userModel } from "../models/user.model.js";
 
 export const getPaginatedProducts = async (req, res) => {
     try {
@@ -52,21 +54,33 @@ export const getPaginatedProducts = async (req, res) => {
 
   export const deleteProduct = async (req, res) => {
     try {
-      const productId = req.params.pid;
-      // Buscar y eliminar el producto por su ID
-      const deletedProduct = await productModel.findByIdAndDelete(productId);
-  
-      if (!deletedProduct) {
+        const productId = req.params.pid;
+        // Buscar y eliminar el producto por su ID
+        const deletedProduct = await productModel.findByIdAndDelete(productId);
+
+        if (!deletedProduct) {
+            req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
+            res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
+        }
+
+        // Obtener todos los usuarios con rol "userPremium"
+        const userPremiumUsers = await userModel.find({ rol: 'userPremium' });
+
+        // Enviar el correo electrónico a cada usuario "userPremium"
+        for (const user of userPremiumUsers) {
+            const userEmail = user.email;
+            const productName = deletedProduct.title;
+
+            console.log(`Enviando correo electrónico a ${userEmail} por eliminación del producto ${productName}`);
+            await sendProductDeletionEmail(userEmail, productName);
+        }
+
+        res.status(200).json({ message: 'Producto eliminado correctamente' });
+    } catch (error) {
         req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
         res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
-      }
-  
-      res.status(200).json({ message: 'Producto eliminado correctamente' });
-    } catch (error) {
-      req.logger.error(`Error al buscar productos: ${getErrorMessage('ERROR_DELETE_PRODUCT')}`);
-      res.status(500).send(getErrorMessage('ERROR_DELETE_PRODUCT'));
     }
-  };
+};
 
   export const updateProductStock = async (req, res) => {
     try {

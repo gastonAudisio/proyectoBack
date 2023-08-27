@@ -66,8 +66,8 @@ const initializePassport = ()=>{
                 let rol = 'usuario'; 
             if (email === 'adminCoder@coder.com') {
                 rol = 'admin'; 
-            }else if ( email === 'adminCoder@premium.com' ) {
-                rol = 'usuarioPremium'; 
+            }else if ( email === 'user@premium.com' ) {
+                rol = 'userPremium'; 
             }
             
                 const user = {

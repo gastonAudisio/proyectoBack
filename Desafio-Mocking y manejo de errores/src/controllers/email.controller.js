@@ -26,7 +26,7 @@ transporter.verify(function (error, success) {
 
 const mailOptions = {
     // Cuerpo del mensaje
-    from: "Coder Test " + config.gmailAccount,
+    from: "Coder Ecommerce Audisio,Gaston " + config.gmailAccount,
     to: config.gmailAccount,
 
 
@@ -37,7 +37,7 @@ const mailOptions = {
 
 const mailOptionsWithAttachments = {
     // Cuerpo del mensaje
-    from: "Coder Test " + config.gmailAccount,
+    from: "Coder Ecommerce Audisio,Gaston " + config.gmailAccount,
     to: config.gmailAccount,
 
     subject: "Correo de prueba Coderhouse Programacion Backend clase 30.",
@@ -93,7 +93,7 @@ export const sendEmailWithAttachments = async (req, res) => {
 
 export const sendInactiveAccountEmail = async (email) => {
     const inactiveAccountMailOptions = {
-        from: "Your App " + config.gmailAccount,
+        from: "Coder Ecommerce Audisio,Gaston " + config.gmailAccount,
         to: email,
         subject: "Eliminación de cuenta por inactividad",
         html: `<div>
@@ -108,5 +108,26 @@ export const sendInactiveAccountEmail = async (email) => {
         console.log(`Correo de eliminación de cuenta enviado a: ${email}`);
     } catch (error) {
         console.error(`Error al enviar correo de eliminación de cuenta a ${email}:`, error);
+    }
+};
+
+export const sendProductDeletionEmail = async (email, productName) => {
+    const productDeletionMailOptions = {
+        from: "Coder Ecommerce Audisio,Gaston " + config.gmailAccount,
+        to: email,
+        subject: "Producto eliminado",
+        html: `<div>
+                <h1>Producto Eliminado</h1>
+                <p>El producto ${productName} ha sido eliminado de nuestra plataforma.</p>
+                <p>Para más detalles, por favor contáctanos.</p>
+            </div>`,
+        attachments: []
+    };
+
+    try {
+        await transporter.sendMail(productDeletionMailOptions);
+        console.log(`Correo de eliminación de producto enviado a: ${email}`);
+    } catch (error) {
+        console.error(`Error al enviar correo de eliminación de producto a ${email}:`, error);
     }
 };
