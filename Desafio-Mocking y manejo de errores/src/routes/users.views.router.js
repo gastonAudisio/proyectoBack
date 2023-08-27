@@ -40,7 +40,7 @@ router.get('/launcher', (req, res)=>{
 
 router.get('/allUsers', allUsers);
 router.delete('/allUsers/:id', deleteUserId);
-router.put('/allUsers/:id/updateRole', updateUserRole);
+router.put('/allUsers/:id', updateUserRole);
 
 
 // Endpoint DELETE para eliminar usuarios inactivos

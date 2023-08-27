@@ -69,25 +69,10 @@ export const handleInactiveUsersDeletion = async () => {
     }
 };
 
-export const updateUserRole = async (userId, newRole) => {
-    try {
-        const user = await userModel.findById(userId);
-        if (!user) {
-            console.log(`Usuario con ID ${userId} no encontrado`);
-            return;
-        }
 
-        user.rol = newRole;
-        await user.save();
-
-        console.log(`Rol del usuario con ID ${userId} actualizado a ${newRole}`);
-    } catch (error) {
-        console.error(`Error al actualizar el rol del usuario con ID ${userId}:`, error);
-    }
-};
 
 export const deleteUserId = async (req, res) => {
-    const userId = req.params.id; // Obtener el ID del usuario de los parámetros de la URL
+    const userId = req.params.id;
     try {
         await userModel.findByIdAndDelete(userId);
         console.log(`Usuario con ID ${userId} eliminado`);
@@ -97,3 +82,28 @@ export const deleteUserId = async (req, res) => {
         res.status(500).json({ error: `Error al eliminar el usuario con ID ${userId}` });
     }
 };
+
+export const updateUserRole = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const { newRole } = req.body;
+  
+      // Verificar si el usuario existe
+      const user = await userModel.findById(userId);
+      if (!user) {
+        console.error(`Usuario con ID ${userId} no encontrado`);
+        res.status(500).send(`Usuario con ID ${userId} no encontrado`);
+        return;
+      }
+  
+      // Actualizar el rol del usuario
+      user.rol = newRole;
+      await user.save();
+  
+      console.log(`Rol del usuario con ID ${userId} actualizado a ${newRole}`);
+      res.status(200).json({ message: `Rol del usuario con ID ${userId} actualizado correctamente` });
+    } catch (error) {
+      console.error(`Error al actualizar el rol del usuario con ID ${userId}:`, error);
+      res.status(500).send(`Error al actualizar el rol del usuario con ID ${userId}`);
+    }
+  };

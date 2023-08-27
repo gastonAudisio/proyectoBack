@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(result => {
                     if (result.status === 200) {
                         console.log(`Usuario con ID ${userId} eliminado`);
-                        location.reload(); // Recarga la página
+                        location.reload(); 
                     } else {
                         console.error(`Error al eliminar el usuario con ID ${userId}`);
                     }
@@ -27,28 +27,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateRoleForms = document.querySelectorAll('.update-role-form');
 
     updateRoleForms.forEach(form => {
-        form.addEventListener('submit', e => {
+        form.addEventListener('submit', async e => {
             e.preventDefault();
             
             const userId = form.querySelector('.update-role-btn').getAttribute('data-user-id');
+            console.log(`UserID capturado: ${userId}`);
             const newRole = form.querySelector('#newRole').value;
+            console.log(`Nuevo rol capturado: ${newRole}`);
             
-            fetch(`/users/allUsers/${userId}/updateRole`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ newRole })
-            })
-            .then(result => {
-                if (result.status === 200) {
+            try {
+                const response = await fetch(`/users/allUsers/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId, newRole }) 
+                });
+    
+                if (response.status === 200) {
                     console.log(`Rol del usuario con ID ${userId} actualizado a ${newRole}`);
-                    location.reload(); 
+                    location.reload();
                 } else {
                     console.error(`Error al actualizar el rol del usuario con ID ${userId}`);
                 }
-            })
-            .catch(error => console.error(error));
+            } catch (error) {
+                console.error(error);
+            }
         });
     });
 });

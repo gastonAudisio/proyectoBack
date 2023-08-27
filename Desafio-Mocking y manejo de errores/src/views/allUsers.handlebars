@@ -7,14 +7,14 @@
                 <br><strong>Email:</strong> {{email}}
             {{/if}}
             <br><strong>Rol:</strong> {{rol}}
-            <a href="/user/edit/{{_id}}">Editar Rol</a>
+            <br>
             <a href="#" class="delete-user" data-user-id="{{_id}}">Eliminar Usuario</a>
             
             <form class="update-role-form">
                 <label for="newRole">Nuevo Rol:</label>
                 <select name="newRole" id="newRole">
                     <option value="usuario">Usuario</option>
-                    <option value="admin">Usuario Premium</option>
+                    <option value="User Premium">Usuario Premium</option>
                 </select>
                 <button class="update-role-btn" data-user-id="{{_id}}">Cambiar Rol</button>
             </form>
