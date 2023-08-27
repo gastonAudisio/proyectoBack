@@ -1,4 +1,5 @@
 
+
 const socket = io();
 
 const btnCrearProducto = document.getElementById("btnCrearProducto");
@@ -22,6 +23,8 @@ document.querySelectorAll('.quantity-btn').forEach(btn => {
   });
 });
 
+//----------------------------------------------------------------------
+// Agregar el producto al carrito
 document.querySelectorAll('.cartButton').forEach(btn => {
   btn.addEventListener('click', function(event) {
     event.preventDefault();
@@ -54,6 +57,7 @@ document.querySelectorAll('.cartButton').forEach(btn => {
 });
 
 //----------------------------------------------------------------------
+// Eliminar producto del carrito
 document.querySelectorAll('.removeProductButton').forEach(btn => {
   btn.addEventListener('click', function(event) {
       event.preventDefault();
@@ -84,6 +88,7 @@ document.querySelectorAll('.removeProductButton').forEach(btn => {
   });
 });
 //----------------------------------------------------------------------
+// Eliminar producto de la DB
 function getProductId(button) {
   const productId = button.dataset.productId;
   return productId;
@@ -91,9 +96,11 @@ function getProductId(button) {
 
 function getId() {
   const idToDelete = document.getElementById("delId").value;
+  alert("Producto eliminado correctamente");
   return idToDelete;
 }
 //----------------------------------------------------------------------
+// Eliminar todos los productos del carrito
 const removeAllProducts = document.getElementById('removeAllProducts');
 removeAllProducts.addEventListener('click', function(event) {
   event.preventDefault();
@@ -118,7 +125,8 @@ removeAllProducts.addEventListener('click', function(event) {
   });
 });
 
-//------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
+// Formulario para crear producto 
 function dataProduct() {
   try {
     const inputCodigo = document.getElementById("codigo").value;
@@ -132,12 +140,12 @@ function dataProduct() {
 
     if (inputCodigo === "" || inputTitulo === "" || inputDescripcion === "" || inputThumbnail === "" || inputCategoria === "") {
       alert("Debe completar todos los campos");
-      return; // Termina la función sin continuar
+      return; 
     }
 
     if (isNaN(inputPrecio) || isNaN(inputStock)) {
       alert("Los campos Precio y Stock deben ser números");
-      return; // Termina la función sin continuar
+      return; 
     }
 
     const product = {
@@ -160,9 +168,7 @@ function dataProduct() {
   }
 }
 
-
-
-
+//-----------------------------------------------------------------------
 btnCrearProducto.addEventListener("click", (evt) => {
   let productData = dataProduct();
   socket.emit("product",productData);

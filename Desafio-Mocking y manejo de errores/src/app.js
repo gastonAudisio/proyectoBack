@@ -124,16 +124,16 @@ socketServer.on('connection', socket=>{
     socket.on("product", async product =>{
         const newProduct = await productModel.create(product);
         console.log("Producto creado:", newProduct);
-        socketServer.emit("productCreated", { message: "Producto creado correctamente" });
     });
+
     socket.on("id", async data => {
         const deletedProduct = await productModel.deleteOne({_id: data});
-        console.log("Producto eliminado:", deletedProduct);
+        
         if (deletedProduct.deletedCount > 0) {
-            socketServer.emit("productDeleted", { message: "Producto eliminado correctamente" });
-          } else {
-            socketServer.emit("productDeleted", { message: "Producto no encontrado para eliminar" });
-          }
+            console.log("Producto eliminado:", deletedProduct);
+        } else {
+            console.log("Producto No encontrado:", deletedProduct);
+        }
     });
 
 //---------------chat----------------//

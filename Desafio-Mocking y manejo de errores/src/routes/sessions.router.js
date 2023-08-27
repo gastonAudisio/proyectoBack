@@ -35,11 +35,14 @@ router.get('/logout', (req, res) => {
   });
 });
 
+
+
 export function auth(req, res, next) {
-  if (req.session.user.email === 'adminCoder@coder.com' && (req.session.admin = true) ) {
-    console.log(req.session.user.email);
+  if (req.session.user && req.session.user.email === 'adminCoder@coder.com' && req.session.admin) {
+    console.log('Usuario autorizado:', req.session.user.email);
     return next();
   } else {
+    console.log('Usuario no autorizado:', req.session.user.email);
     return res.status(403).send('Usuario no autorizado para ingresar al recurso');
   }
 }

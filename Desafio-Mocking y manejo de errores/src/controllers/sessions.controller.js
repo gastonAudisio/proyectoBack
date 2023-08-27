@@ -97,8 +97,8 @@ export async function login(req, res) {
     
       const updatedUser = await userModel.findByIdAndUpdate(
           user._id,
-          { lastConnection: new Date() }, // Actualiza el campo lastConnection con la fecha actual
-          { new: true } // Retorna el usuario actualizado después de la actualización
+          { lastConnection: new Date() }, 
+          { new: true } 
       );
       console.log('Usuario lastConnection actualizado:', updatedUser);
 
