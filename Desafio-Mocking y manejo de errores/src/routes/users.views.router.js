@@ -1,7 +1,7 @@
 import {Router} from 'express';
 const router = Router();
 import {authToken} from '../utils.js';
-import { allUsers,handleInactiveUsersDeletion,deleteUserId  } from '../controllers/user.controller.js';
+import { allUsers,handleInactiveUsersDeletion,deleteUserId,updateUserRole  } from '../controllers/user.controller.js';
 import { auth } from '../routes/sessions.router.js'
 
 router.get('/login', (req, res)=>{
@@ -40,7 +40,7 @@ router.get('/launcher', (req, res)=>{
 
 router.get('/allUsers', allUsers);
 router.delete('/allUsers/:id', deleteUserId);
-router.put('/allUsers', allUsers);
+router.put('/allUsers/:id/updateRole', updateUserRole);
 
 
 // Endpoint DELETE para eliminar usuarios inactivos

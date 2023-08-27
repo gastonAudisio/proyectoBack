@@ -9,6 +9,15 @@
             <br><strong>Rol:</strong> {{rol}}
             <a href="/user/edit/{{_id}}">Editar Rol</a>
             <a href="#" class="delete-user" data-user-id="{{_id}}">Eliminar Usuario</a>
+            
+            <form class="update-role-form">
+                <label for="newRole">Nuevo Rol:</label>
+                <select name="newRole" id="newRole">
+                    <option value="usuario">Usuario</option>
+                    <option value="admin">Usuario Premium</option>
+                </select>
+                <button class="update-role-btn" data-user-id="{{_id}}">Cambiar Rol</button>
+            </form>
         </li>
         <br>
     {{/each}}
