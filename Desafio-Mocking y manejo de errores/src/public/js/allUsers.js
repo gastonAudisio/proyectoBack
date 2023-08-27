@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
     const deleteLinks = document.querySelectorAll('.delete-user');
 
     deleteLinks.forEach(link => {
@@ -15,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(result => {
                     if (result.status === 200) {
                         console.log(`Usuario con ID ${userId} eliminado`);
-                        // Aquí puedes realizar cualquier acción adicional después de la eliminación
-                        // Por ejemplo, actualizar la lista de usuarios.
+                        location.reload(); // Recarga la página
                     } else {
                         console.error(`Error al eliminar el usuario con ID ${userId}`);
                     }
@@ -26,3 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+
+
