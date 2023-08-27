@@ -26,9 +26,6 @@ export const allUsers = async (req, res) => {
     }
 };
 
-
-//--------------------------------------------------------------------------
-
 export const deleteUserById = async (userId) => {
     try {
         await userModel.findByIdAndDelete(userId);
@@ -69,5 +66,34 @@ export const handleInactiveUsersDeletion = async () => {
         console.log('Usuarios inactivos eliminados y correos enviados');
     } catch (error) {
         console.error('Error al manejar usuarios inactivos:', error);
+    }
+};
+
+export const updateUserRole = async (userId, newRole) => {
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) {
+            console.log(`Usuario con ID ${userId} no encontrado`);
+            return;
+        }
+
+        user.rol = newRole;
+        await user.save();
+
+        console.log(`Rol del usuario con ID ${userId} actualizado a ${newRole}`);
+    } catch (error) {
+        console.error(`Error al actualizar el rol del usuario con ID ${userId}:`, error);
+    }
+};
+
+export const deleteUserId = async (req, res) => {
+    const userId = req.params.id; // Obtener el ID del usuario de los parámetros de la URL
+    try {
+        await userModel.findByIdAndDelete(userId);
+        console.log(`Usuario con ID ${userId} eliminado`);
+        res.status(200).json({ message: `Usuario con ID ${userId} eliminado` });
+    } catch (error) {
+        console.error(`Error al eliminar el usuario con ID ${userId}:`, error);
+        res.status(500).json({ error: `Error al eliminar el usuario con ID ${userId}` });
     }
 };

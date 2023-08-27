@@ -7,7 +7,11 @@
                 <br><strong>Email:</strong> {{email}}
             {{/if}}
             <br><strong>Rol:</strong> {{rol}}
+            <a href="/user/edit/{{_id}}">Editar Rol</a>
+            <a href="#" class="delete-user" data-user-id="{{_id}}">Eliminar Usuario</a>
         </li>
-    <br>
+        <br>
     {{/each}}
 </ul>
+
+<script src="/js/allUsers.js"></script>

@@ -43,6 +43,7 @@ export function auth(req, res, next) {
     return res.status(403).send('Usuario no autorizado para ingresar al recurso');
   }
 }
+
 export function authUser(req, res, next) {
   if (!req.session.admin) {
     return next();
