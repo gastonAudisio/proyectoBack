@@ -23,8 +23,8 @@ export const getPaginatedProducts = async (req, res) => {
       result.prevLink = result.hasPrevPage ? `http://localhost:9090/api/products/products?page=${result.prevPage}` : '';
       result.nextLink = result.hasNextPage ? `http://localhost:9090/api/products/products?page=${result.nextPage}` : '';
       result.isValid = !(page <= 0 || page > result.totalPages);
-  
-      res.render('products', { ...result, user });
+      const isUsuario = user.rol === "admin";
+      res.render('products', { ...result, user,isUsuario });
     } catch (error) {
       req.logger.error(`Error al buscar productos: ${getErrorMessage('PRODUCT_NOT_FOUND')}`);
       res.status(500).send(getErrorMessage('PRODUCT_NOT_FOUND'));

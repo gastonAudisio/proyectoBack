@@ -8,8 +8,9 @@
     </div>
     <button id="logout">Log Out</button>
 </div>
-<h1>Lista de Productos con mongo</h1>
 
+<h1>Lista de Productos con mongo</h1>
+{{#if isUsuario}}
     <form >
     <div>
         <div>
@@ -67,6 +68,8 @@
     </div>
     </form>
 <br>
+
+{{/if}}
     <h2>Listado de Productos</h2>
 <div >
 {{#if isValid}}
@@ -115,6 +118,7 @@
 {{else}}
 <h1>No hay productos</h1>
 {{/if}}
+
 
 <script>
   const cartId = "{{this.user.cart.cart_id}}";

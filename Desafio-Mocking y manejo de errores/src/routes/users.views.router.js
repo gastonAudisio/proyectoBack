@@ -38,7 +38,7 @@ router.get('/launcher', (req, res)=>{
     res.render("launcher");
 });
 
-router.get('/allUsers', allUsers);
+router.get('/allUsers',auth, allUsers);
 router.delete('/allUsers/:id', deleteUserId);
 router.put('/allUsers/:id', updateUserRole);
 
