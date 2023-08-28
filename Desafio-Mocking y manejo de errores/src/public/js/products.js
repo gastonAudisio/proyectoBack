@@ -127,51 +127,57 @@ removeAllProducts.addEventListener('click', function(event) {
 
 //-----------------------------------------------------------------------
 // Formulario para crear producto 
-function dataProduct() {
-  try {
-    const inputCodigo = document.getElementById("codigo").value;
-    const inputTitulo = document.getElementById("titulo").value;
-    const inputDescripcion = document.getElementById("descripcion").value;
-    const inputPrecio = document.getElementById("precio").value;
-    const inputThumbnail = document.getElementById("thumbnail").value;
-    const inputStock = document.getElementById("stock").value;
-    const inputCategoria = document.getElementById("categoria").value;
-    const inputStatus = document.getElementById("status").value;
-
-    if (inputCodigo === "" || inputTitulo === "" || inputDescripcion === "" || inputThumbnail === "" || inputCategoria === "") {
-      alert("Debe completar todos los campos");
-      return; 
-    }
-
-    if (isNaN(inputPrecio) || isNaN(inputStock)) {
-      alert("Los campos Precio y Stock deben ser números");
-      return; 
-    }
-
-    const product = {
-      code: inputCodigo,
-      title: inputTitulo,
-      description: inputDescripcion,
-      price: inputPrecio,
-      thumbnail: inputThumbnail,
-      stock: inputStock,
-      category: inputCategoria,
-      status: inputStatus,
-    };
-
-    console.log(product);
-    socket.emit("productCreated", product);
-    alert("Producto creado correctamente");
-    return product;
-  } catch (error) {
-    alert("Ha ocurrido un error: " + error);
+function validateProductData(data) {
+  if (!data.code || !data.title || !data.description || !data.thumbnail || !data.category) {
+    return false;
   }
+  if (isNaN(data.price) || isNaN(data.stock)) {
+    return false;
+  }
+  return true;
 }
+
+btnCrearProducto.addEventListener("click", (evt) => {
+  const inputCodigo = document.getElementById("codigo").value;
+  const inputTitulo = document.getElementById("titulo").value;
+  const inputDescripcion = document.getElementById("descripcion").value;
+  const inputPrecio = document.getElementById("precio").value;
+  const inputThumbnail = document.getElementById("thumbnail").value;
+  const inputStock = document.getElementById("stock").value;
+  const inputCategoria = document.getElementById("categoria").value;
+  const inputStatus = document.getElementById("status").value;
+
+  const productData = {
+    code: inputCodigo,
+    title: inputTitulo,
+    description: inputDescripcion,
+    price: inputPrecio,
+    thumbnail: inputThumbnail,
+    stock: inputStock,
+    category: inputCategoria,
+    status: inputStatus,
+  };
+
+  if (validateProductData(productData)) {
+    // Los datos son válidos, entonces llama a dataProduct()
+    alert("PRODUCT CREADO");
+    socket.emit("product", productData);
+  } else {
+    alert("Por favor completa todos los campos obligatorios y asegúrate de que los campos de precio y stock sean números válidos.");
+  }
+});
+
+
+
+
+
 
 //-----------------------------------------------------------------------
 btnCrearProducto.addEventListener("click", (evt) => {
   let productData = dataProduct();
+  alert("PRODUCT CREADO");
   socket.emit("product",productData);
+ 
 });
 
 

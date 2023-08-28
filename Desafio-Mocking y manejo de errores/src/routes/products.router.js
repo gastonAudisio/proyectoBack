@@ -6,8 +6,8 @@ import { getPaginatedProducts,getAllProducts,createProduct,deleteProduct,updateP
 
 const router = Router();
     
-router.get('/products', checkUser, getPaginatedProducts);
 router.get("/", getAllProducts);
+router.get('/products', checkUser, getPaginatedProducts);
 router.post('/products',auth, createProduct);
 router.delete('/products/:pid',auth, deleteProduct);
 router.put('/:pid',auth, updateProductStock);

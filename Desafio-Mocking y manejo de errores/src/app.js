@@ -79,7 +79,6 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 //--------------------------------------------------------
-
 //Routers
 app.use('/',viewsRouter);
 app.use('/users',usersViewRouter);
@@ -124,6 +123,7 @@ socketServer.on('connection', socket=>{
     socket.on("product", async product =>{
         const newProduct = await productModel.create(product);
         console.log("Producto creado:", newProduct);
+        
     });
 
     socket.on("id", async data => {

@@ -44,6 +44,13 @@ export const getPaginatedProducts = async (req, res) => {
   export const createProduct = async (req, res) => {
     try {
       const { code, title, description, price, thumbnail, stock, category, status } = req.body;
+  
+      if (!code || !title || !description || !price || !thumbnail || !stock || !category || !status) {
+        return res.status(400).json({ error: 'Debe completar todos los campos requeridos' });
+      }
+      if (isNaN(price) || isNaN(stock)) {
+        return res.status(400).json({ error: 'Los campos Precio y Stock deben ser números' });
+      }
       const product = await productModel.create({ code, title, description, price, thumbnail, stock, category, status });
       res.status(201).json({ message: 'Producto creado correctamente', product });
     } catch (error) {
