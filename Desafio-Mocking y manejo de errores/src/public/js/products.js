@@ -102,7 +102,6 @@ function getId() {
     return;
   }
   alert("Producto eliminado correctamente ");
-    return;
   return idToDelete;
 }
 //----------------------------------------------------------------------
