@@ -96,7 +96,12 @@ function getProductId(button) {
 
 function getId() {
   const idToDelete = document.getElementById("delId").value;
-  alert("Producto eliminado correctamente");
+  
+  if (!idToDelete) {
+    alert("Por favor ingresa un ID válido para eliminar el producto.");
+    return;
+  }
+  
   return idToDelete;
 }
 //----------------------------------------------------------------------
@@ -159,7 +164,6 @@ btnCrearProducto.addEventListener("click", (evt) => {
   };
 
   if (validateProductData(productData)) {
-    // Los datos son válidos, entonces llama a dataProduct()
     alert("PRODUCT CREADO");
     socket.emit("product", productData);
   } else {
@@ -168,14 +172,9 @@ btnCrearProducto.addEventListener("click", (evt) => {
 });
 
 
-
-
-
-
 //-----------------------------------------------------------------------
 btnCrearProducto.addEventListener("click", (evt) => {
   let productData = dataProduct();
-  alert("PRODUCT CREADO");
   socket.emit("product",productData);
  
 });
