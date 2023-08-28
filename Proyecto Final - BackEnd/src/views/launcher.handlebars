@@ -1,0 +1,33 @@
+
+<div class="flex-container center">
+  <h1>Realizar Compra</h1>
+
+  <h2>Tus productos en el carrito</h2>
+
+  <div class="gradient padding flex-container">
+    <h1>Cart ID: {{cart._id}}</h1>
+    {{#if cart.products.length}}
+      <h2>Tus productos en el carrito:</h2>
+      <ul>
+      {{#each cart.products}}
+        <li>Code: {{this.product.code}}</li>
+        <li>Title: {{this.product.title}}</li>
+        <li>Description: {{this.product.description}}</li>
+        <li>Price: {{this.product.price}}</li>
+        <li>Category: {{this.product.category}}</li>
+        <li>cantidad: {{this.quantity}}</li>
+        <p>-----------------------------------------</p>
+      {{/each}}
+      </ul>
+        
+    {{else}}
+      <p>Cart is empty.</p>
+    {{/if}}
+  </div>
+  <form action="/api/carts/{{cartId}}/purchase" method="POST">
+    <button type="submit" id="comprar">Realizar Compra</button>
+  </form>
+  <a href="/api/products/products">
+        <button>Volver</button>
+    </a>
+</div>

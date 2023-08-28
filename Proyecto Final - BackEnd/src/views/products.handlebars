@@ -1,0 +1,131 @@
+<div class="flex-row">
+    <div class="flex-container">
+        <p>Bienvenido {{user.name}}!</p>
+        <p>Email: {{user.email}}</p>
+        <p>Rol: {{user.rol}}</p>
+        <p>ID:{{user._id}} </p>
+        <p>Cart ID:{{user.cart.cart_id}} </p> 
+    </div>
+    <button id="logout">Log Out</button>
+</div>
+
+<h1>Lista de Productos con mongo</h1>
+{{#if isUsuario}}
+    <form >
+    <div>
+        <div>
+            <p>Formulario para agregar un nuevo producto a la DB</p>
+        <br>
+        Codigo:
+        <input id="codigo" type="text">
+        </div>
+        <div>
+        <br>
+        Titulo: 
+        <input id="titulo" type="text" alt="Introduce un mensaje">
+        </div> 
+        <div>
+        <br>
+        Descricion:
+        <input id="descripcion" type="text" alt="Introduce un mensaje">
+        </div>
+        <div>
+        <br>
+        Precio:
+        <input id="precio" type="text" alt="Introduce un mensaje">
+        </div>
+        <div>
+        <br>
+        Thumbnail:
+        <input id="thumbnail" type="text" alt="Introduce un mensaje">
+        </div>
+        <div>
+        <br>
+        Stock:
+        <input id="stock" type="text" alt="Introduce un mensaje">
+        </div>
+        <div>
+        <br>
+        Categoria:
+        <input id="categoria" type="text" alt="Introduce un mensaje">
+        </div>
+        <div>
+        <br>
+        Status:
+        <input id="status" type="boolean" alt="Introduce un mensaje" placeholder="Ingresa true o false">
+        </div>
+        <br>
+        <div>
+            <button id="btnCrearProducto">
+            <h3>Crear Producto</h3>
+            </button>
+        </div>
+        <div>
+            <h3>Eliminar Producto de la DB</h3>
+            <input type="string" id="delId" placeholder="ID del producto a eliminar"/>
+            <button type="submit" id="delButton">Eliminar </button>
+        </div>
+    </div>
+    </form>
+<br>
+
+{{/if}}
+    <h2>Listado de Productos</h2>
+<div >
+{{#if isValid}}
+<div class="gradient">
+    {{#each docs}}
+     <div class="flex-container">
+
+    
+        <li>Codigo: {{this.code}}</li>
+        <li>Titulo: {{this.title}}</li>
+        <li>Descricion: {{this.description}}</li>
+        <li>Precio: {{this.price}}</li>
+        <li>Thumbnail: {{this.thumbnail}}</li>
+        <li>Stock: {{this.stock}}</li>
+        <li>Categoria: {{this.category}}</li>
+        <li>Status: {{this.status}}</li>
+
+<div class="quantity-input" style="text-align: center;">
+    <button class="quantity-btn minus">-</button>
+        <input type="number" class="quantity" value="1" min="1" style="width: 40px;">
+    <button class="quantity-btn plus">+</button>
+    <br>
+    <button type="submit" class="cartButton" data-product-id="{{this._id}}">Add to cart</button>
+    <button class="removeProductButton" data-product-id="{{this._id}}">Delete to cart</button>
+</div>
+<br>
+<br>
+    {{/each}}
+</div>
+<button id="removeAllProducts" >Eliminar todos los productos del Carrito</button>
+ <button id="comprar">Realizar Compra</button>
+ </div>
+</div>
+<br/>
+<div class="padding-bot justify">
+    {{#if hasPrevPage}}
+        <a href={{this.prevLink}}><< Anterior</a>
+    {{/if}}
+    &nbsp;
+    {{this.page}}
+    &nbsp;
+     {{#if this.hasNextPage}}
+        <a href={{nextLink}}>Siguiente >></a>
+    {{/if}} 
+</div>
+{{else}}
+<h1>No hay productos</h1>
+{{/if}}
+
+
+<script>
+  const cartId = "{{this.user.cart.cart_id}}";
+</script>
+
+<script src="/js/launcher.js"></script>
+<script src="/js/logout.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>
+
