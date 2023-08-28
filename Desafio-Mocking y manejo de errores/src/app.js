@@ -131,8 +131,10 @@ socketServer.on('connection', socket=>{
         
         if (deletedProduct.deletedCount > 0) {
             console.log("Producto eliminado:", deletedProduct);
+            socket.emit("productDeleted", { success: true });
         } else {
             console.log("Producto No encontrado:", deletedProduct);
+            socket.emit("productDeleted", { success: false });
         }
     });
 

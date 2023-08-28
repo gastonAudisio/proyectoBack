@@ -101,7 +101,8 @@ function getId() {
     alert("Por favor ingresa un ID válido para eliminar el producto.");
     return;
   }
-  
+  alert("Producto eliminado correctamente ");
+    return;
   return idToDelete;
 }
 //----------------------------------------------------------------------
@@ -186,5 +187,13 @@ deleteButton.addEventListener("click", (evt) =>{
 })
 
 socket.on("productDeleted", (data) => {
-  alert(data.message);
+  if (data.success) {
+    alert("Producto eliminado correctamente.");
+  } else {
+    alert("No se pudo eliminar el producto. Por favor verifica el ID.");
+  }
 });
+
+
+
+
