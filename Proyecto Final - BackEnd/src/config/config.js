@@ -18,12 +18,12 @@ console.log("port: ", program.opts().port);
 const environment = program.opts().mode;
 
 dotenv.config({
-    path: environment === "production" ? "./config/.env.production" : "./config/.env.development"
+    path: environment === "production" ? "src/config/.env.production" : "src/config/.env.development"
 });
 
 
 export default {
-    port: process.env.PORT,
+    port: process.env.PORT || 9090,
     mongoUrl: process.env.MONGO_URL,
     adminName: process.env.ADMIN_NAME,
     adminPassword: process.env.ADMIN_PASSWORD,
