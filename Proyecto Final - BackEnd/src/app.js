@@ -30,6 +30,8 @@ import swaggerUiExpress from 'swagger-ui-express';
 import launcherRouter from "./routes/launcher.router.js"
 //------------------------------------------------------------
 const app = express();
+const PORT = process.env.PORT || 9090 ;
+const conecction = mongoose.connect(process.env.MONGO_URL)
 app.use(addLogger);
 app.use(cors());
 
@@ -93,7 +95,7 @@ app.get("/loggerTest", loggerTestRouter);
 app.use("/launcher", launcherRouter);
 
 //--------------------------------------------------------
-const SERVER_PORT = config.port;
+const SERVER_PORT = config.port ;
 const httpServer = app.listen(SERVER_PORT, () => {
     console.log("Servidor escuchando por el puerto: " + SERVER_PORT);
 });
